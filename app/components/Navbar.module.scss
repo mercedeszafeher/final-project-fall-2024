@@ -2,6 +2,7 @@ $primary-color: #343a40;
 $secondary-color: #ecf0f1;
 $accent-color: #ff8981;
 $background-color: #2c3e50;
+$hover-accent-color: #e0685a;
 
 .header {
   background-color: #f8f9fa;
@@ -55,25 +56,61 @@ $background-color: #2c3e50;
     padding: 10px 15px;
     border: 1px solid transparent;
     border-radius: 25px;
-    color: #343a40;
-    border-color: #e0685a;
+    color: $primary-color;
+    border-color: $hover-accent-color;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
 
     &:hover {
       background-color: #e0675ab5;
+      color: $secondary-color;
     }
   }
 
   .signUpButton {
     padding: 10px 15px;
     border-radius: 25px;
-    background-color: #ff8981;
-    color: #f9dedc;
+    background-color: $accent-color;
+    color: $secondary-color;
     border: none;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
 
     &:hover {
-      background-color: #e3796e;
+      background-color: $accent-color;
+      color: $secondary-color;
       border: 1px solid transparent;
       text-shadow: #2c3e50;
+    }
+  }
+
+  .profileLink {
+    padding: 10px 15px;
+    border-radius: 25px;
+    background-color: $secondary-color;
+    color: $primary-color;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+
+  .logoutButton {
+    padding: 10px 15px;
+    border: 1px solid $primary-color;
+    border-radius: 25px;
+    color: $primary-color;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: $hover-accent-color;
+      color: $secondary-color;
     }
   }
 }

@@ -1,8 +1,18 @@
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
+import type { Session } from '../../migrations/00013-sessions';
+import LogoutButton from './LogoutButton';
 import styles from './Navbar.module.scss';
 
-const NavBar: React.FC = () => {
+import { getUser } from '';
+
+const NavBar: React.FC = async () => {
+  const sessionTokenCookie = (await cookies()).get('sessionToken');
+
+  const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
+
   return (
     <header className={styles.header}>
       <div className={styles.navContainer}>
@@ -16,20 +26,35 @@ const NavBar: React.FC = () => {
         {/* Navigation Links */}
         <nav className={styles.nav}>
           <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/review">Review</Link>
-          <Link href="/cities">Cities</Link>
+          <Link href="/#">About</Link>
+          <Link href="/#">Contact</Link>
+          <Link href="/#">Review</Link>
+          <Link href="/#">Cities</Link>
         </nav>
 
         {/* Login and Sign Up buttons */}
         <div className={styles.authButtons}>
-          <Link href="/login" className={styles.loginButton}>
-            Login
-          </Link>
-          <Link href="/signup" className={styles.signUpButton}>
-            Sign Up
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href={`/profile/${user.username}`}
+                className={styles.profileLink}
+              >
+                {user.username}
+              </Link>
+              <LogoutButton className={styles.logoutButton} />{' '}
+              {/* Logout button */}
+            </>
+          ) : (
+            <>
+              <Link href="/login" className={styles.loginButton}>
+                Login
+              </Link>
+              <Link href="/signup" className={styles.signUpButton}>
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
