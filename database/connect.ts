@@ -1,21 +1,17 @@
 // import 'server-only';
 import { config } from 'dotenv-safe';
 import postgres, { type Sql } from 'postgres';
+import { postgresConfig } from '../util/config.js';
 
 config();
 
-declare module globalThis {
+declare namespace globalThis {
   let postgresSqlClient: Sql;
 }
 
 function connectOneTimeToDatabase() {
   if (!('postgresSqlClient' in globalThis)) {
-    globalThis.postgresSqlClient = postgres({
-      transform: {
-        ...postgres.camel,
-        undefined: null,
-      },
-    });
+    globalThis.postgresSqlClient = postgres(postgresConfig);
   }
 
   return globalThis.postgresSqlClient;
