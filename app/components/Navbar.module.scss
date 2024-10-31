@@ -1,0 +1,99 @@
+$primary-color: #343a40;
+$secondary-color: #ecf0f1;
+$accent-color: #ff8981;
+$background-color: #2c3e50;
+
+.header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  flex-shrink: 0;
+  img {
+    max-height: 50px;
+    width: auto;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+  font-family: 'Open Sans', sans-serif;
+  align-items: center;
+
+  a {
+    color: #343a40;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      border: 1px solid transparent;
+      border-radius: 25px;
+      border-color: #e0685a;
+      transform: scale(1.1);
+    }
+  }
+}
+
+.authButtons {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+
+  .loginButton {
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    color: #343a40;
+    border-color: #e0685a;
+
+    &:hover {
+      background-color: #e0675ab5;
+    }
+  }
+
+  .signUpButton {
+    padding: 10px 15px;
+    border-radius: 25px;
+    background-color: #ff8981;
+    color: #f9dedc;
+    border: none;
+
+    &:hover {
+      background-color: #e3796e;
+      border: 1px solid transparent;
+      text-shadow: #2c3e50;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navContainer {
+    flex-direction: column;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav a {
+    font-size: 16px;
+  }
+
+  .authButtons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
