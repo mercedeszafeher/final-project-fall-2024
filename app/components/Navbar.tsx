@@ -2,15 +2,16 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { getUser } from '../../database/users';
 import type { Session } from '../../migrations/00013-sessions';
 import LogoutButton from './LogoutButton';
 import styles from './Navbar.module.scss';
 
-import { getUser } from '';
-
 const NavBar: React.FC = async () => {
+  // Check if the session token cookie exists
   const sessionTokenCookie = (await cookies()).get('sessionToken');
 
+  // Get the current logged-in user from the database using the session token
   const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
 
   return (
@@ -19,7 +20,12 @@ const NavBar: React.FC = async () => {
         {/* Logo on the left */}
         <div className={styles.logo}>
           <Link href="/">
-            <Image src="" alt="RaterHood Logo" width={150} height={75} />
+            <Image
+              src="/path/to/logo.png"
+              alt="RaterHood Logo"
+              width={150}
+              height={75}
+            />
           </Link>
         </div>
 
@@ -32,7 +38,7 @@ const NavBar: React.FC = async () => {
           <Link href="/#">Cities</Link>
         </nav>
 
-        {/* Login and Sign Up buttons */}
+        {/* Auth Links or User Info */}
         <div className={styles.authButtons}>
           {user ? (
             <>
