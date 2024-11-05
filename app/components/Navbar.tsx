@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { getUser } from '../../database/users';
 import type { Session } from '../../migrations/00013-sessions';
-import LogoutButton from './LogoutButton';
+// import LogoutButton from './LogoutButton';
 import styles from './Navbar.module.scss';
 
 const NavBar: React.FC = async () => {
@@ -43,12 +43,12 @@ const NavBar: React.FC = async () => {
           {user ? (
             <>
               <Link
-                href={`/profile/${user.username}`}
+                href="/#" //{`/profile/${user.username}`}
                 className={styles.profileLink}
               >
                 {user.username}
               </Link>
-              <LogoutButton className={styles.logoutButton} />{' '}
+              {/* <LogoutButton className={styles.logoutButton} />{' '} */}
               {/* Logout button */}
             </>
           ) : (
@@ -56,7 +56,7 @@ const NavBar: React.FC = async () => {
               <Link href="/login" className={styles.loginButton}>
                 Login
               </Link>
-              <Link href="/signup" className={styles.signUpButton}>
+              <Link href="/register" className={styles.signUpButton}>
                 Sign Up
               </Link>
             </>

@@ -51,7 +51,23 @@ export const getUserInsecure = cache(async (username: User['username']) => {
   return user;
 });
 
-// Create a new user with a hashed password, returns the user's ID and username
+// Fetch a user by their email address
+export const getUserByEmail = cache(async (email: User['email']) => {
+  const [user] = await sql<User[]>`
+    SELECT
+      user_id,
+      username,
+      email
+    FROM
+      users
+    WHERE
+      email = ${email}
+  `;
+
+  return user;
+});
+
+// Create a new user with full information, returns the user's ID and username
 export const createUser = cache(
   async (
     username: User['username'],
@@ -81,6 +97,33 @@ export const createUser = cache(
         now()
       )
       RETURNING user_id, username
+    `;
+
+    return user;
+  },
+);
+
+// Create a new user with only username and password hash
+export const createUserWithBasicInfo = cache(
+  async (
+    username: User['username'],
+    email: User['email'],
+    passwordHash: UserWithPasswordHash['passwordHash'],
+  ) => {
+    const [user] = await sql<User[]>`
+      INSERT INTO users (
+        username,
+        email,
+        password_hash,
+        created_at
+      )
+      VALUES (
+        ${username},
+        ${email},
+        ${passwordHash},
+        now()
+      )
+      RETURNING user_id, username, email
     `;
 
     return user;
