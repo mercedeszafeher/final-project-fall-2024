@@ -29,6 +29,7 @@ $background-color: #3c4855;
 .image {
   width: 100%;
   max-width: 400px;
+  filter: grayscale(100);
   height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
