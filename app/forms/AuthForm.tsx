@@ -1,0 +1,182 @@
+'use client';
+import router from 'next/router';
+import { useState } from 'react';
+import ErrorMessage from '../ErrorMessage';
+import styles from './AuthForm.module.scss';
+
+interface AuthFormProps {
+  initialMode: 'login' | 'register';
+}
+
+export default function AuthForm({ initialMode }: AuthFormProps) {
+  const [isRegister, setIsRegister] = useState(initialMode === 'register');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<{ message: string }[]>([]);
+
+  const toggleAuthMode = () => {
+    setIsRegister(!isRegister);
+    setErrors([]);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const endpoint = isRegister ? '/api/register' : '/api/login';
+    const body = isRegister
+      ? { username, email, password }
+      : { email, password };
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if ('errors' in data) {
+      setErrors(data.errors);
+      return;
+    }
+
+    router.push('/');
+  };
+
+  return (
+    <div
+      className={`${styles.authContainer} ${isRegister ? styles.rightPanelActive : ''}`}
+    >
+      {/* Register Form */}
+      <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
+        {isRegister && (
+          <form onSubmit={handleSubmit}>
+            <h1>Create Account</h1>
+            <div className={styles.socialContainer}>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-google-plus-g"></i>
+              </a>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+            <input
+              className={styles.authInput}
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(event) => setUsername(event.currentTarget.value)}
+            />
+            <input
+              className={styles.authInput}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+            <input
+              className={styles.authInput}
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+            />
+            <button className={styles.authButton} type="submit">
+              Sign Up
+            </button>
+
+            {errors.map((error) => (
+              <div className="error" key={`error-${error.message}`}>
+                <ErrorMessage>{error.message}</ErrorMessage>
+              </div>
+            ))}
+          </form>
+        )}
+      </div>
+
+      {/* Login Form */}
+      <div className={`${styles.formContainer} ${styles.signInContainer}`}>
+        {!isRegister && (
+          <form onSubmit={handleSubmit}>
+            <h1>Sign In</h1>
+            <div className={styles.socialContainer}>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-google-plus-g"></i>
+              </a>
+              <a href="#" className={styles.socialIconLink}>
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+            <input
+              className={styles.authInput}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+            <input
+              className={styles.authInput}
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+            />
+            <button className={styles.authButton} type="submit">
+              Login
+            </button>
+
+            {errors.map((error) => (
+              <div className="error" key={`error-${error.message}`}>
+                <ErrorMessage>{error.message}</ErrorMessage>
+              </div>
+            ))}
+          </form>
+        )}
+      </div>
+
+      {/* Overlay Section */}
+      <div className={styles.overlayContainer}>
+        <div className={styles.overlay}>
+          <div className={`${styles.overlayPanel} ${styles.overlayLeft}`}>
+            <h1>Welcome Back, Neighbour!</h1>
+            <br />
+            <p>
+              Sign in to pick up where you left off in your neighborhood search
+            </p>
+            <br />
+            <button
+              className={`${styles.ghostButton}`}
+              onClick={toggleAuthMode}
+            >
+              Sign In
+            </button>
+          </div>
+          <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
+            <h1>
+              Hi there, <br /> Future Neighbour!
+            </h1>
+            <br />
+            <p>
+              Join us to start uncovering the neighborhoods that fit your
+              lifestyle
+            </p>
+            <br />
+            <button
+              className={`${styles.ghostButton}`}
+              onClick={toggleAuthMode}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
