@@ -1,14 +1,16 @@
 'use client';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
+import { getSafeReturnPath } from '../../util/validation';
 import ErrorMessage from '../ErrorMessage';
 import styles from './AuthForm.module.scss';
 
 interface AuthFormProps {
   initialMode: 'login' | 'register';
+  returnTo?: string | string[];
 }
 
-export default function AuthForm({ initialMode }: AuthFormProps) {
+export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
   const [isRegister, setIsRegister] = useState(initialMode === 'register');
   const [isMobileView, setIsMobileView] = useState(false);
   const [username, setUsername] = useState('');
@@ -49,7 +51,11 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
       return;
     }
 
-    router.push('/');
+    // router.push(`/profile/${data.user.username}`);
+
+    router.push(
+      getSafeReturnPath(returnTo) || `/profile/${data.user.username}`,
+    );
   };
 
   return (
@@ -116,13 +122,13 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <h1>Create Account</h1>
               <div className={styles.socialContainer}>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-facebook-f"></i>
+                  <i className="facebook"></i>
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-google-plus-g"></i>
+                  <i className="google"></i>
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-linkedin-in"></i>
+                  <i className="instagram"></i>
                 </a>
               </div>
               <input
@@ -165,13 +171,13 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <h1>Sign In</h1>
               <div className={styles.socialContainer}>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-facebook-f"></i>
+                  <i className="facebook"></i>
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-google-plus-g"></i>
+                  <i className="google"></i>
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <i className="fab fa-linkedin-in"></i>
+                  <i className="instagram"></i>
                 </a>
               </div>
               <input
