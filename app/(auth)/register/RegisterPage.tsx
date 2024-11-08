@@ -2,6 +2,7 @@
 
 import AuthForm from '../../forms/AuthForm';
 import styles from '../../forms/AuthForm.module.scss';
+import TestimonialsSection from './TestimonialsSection';
 import WelcomeSection from './WelcomeSection';
 
 type Props = {
@@ -11,12 +12,13 @@ type Props = {
 };
 
 export default async function RegisterPage(props: Props) {
-  const { returnTo } = await props.searchParams;
+  const { returnTo } = (await props.searchParams) || {};
 
   return (
     <div className={styles.pageContainer}>
       <WelcomeSection />
       <AuthForm initialMode="register" returnTo={returnTo} />
+      <TestimonialsSection />
     </div>
   );
 }

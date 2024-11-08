@@ -6,6 +6,7 @@ export async function up(sql: Sql) {
       city_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       name VARCHAR(100) NOT NULL,
       country VARCHAR(100) NOT NULL,
+      imageUrl VARCHAR,
       description TEXT,
       map_url TEXT
     )

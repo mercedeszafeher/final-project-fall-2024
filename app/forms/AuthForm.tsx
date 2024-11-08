@@ -119,7 +119,7 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
             style={{ display: isRegister ? 'block' : 'none' }}
           >
             <form onSubmit={handleSubmit}>
-              <h1>Create Account</h1>
+              <h1>Create an Account</h1>
               <div className={styles.socialContainer}>
                 <a href="#" className={styles.socialIconLink}>
                   <i className="facebook"></i>

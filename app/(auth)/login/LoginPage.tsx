@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default async function LoginPage(props: Props) {
-  const { returnTo } = await props.searchParams;
+  const { returnTo } = (await props.searchParams) || {};
 
   return (
     <div className={styles.pageContainer}>
