@@ -2,6 +2,7 @@
 
 import AuthForm from '../../forms/AuthForm';
 import styles from '../../forms/AuthForm.module.scss';
+import WelcomeBackSection from './WelcomeBackSection';
 
 type Props = {
   searchParams: Promise<{
@@ -14,6 +15,7 @@ export default async function LoginPage(props: Props) {
 
   return (
     <div className={styles.pageContainer}>
+      <WelcomeBackSection />
       <AuthForm initialMode="login" returnTo={returnTo} />
     </div>
   );

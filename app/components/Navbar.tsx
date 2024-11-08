@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { getUser } from '../../database/users';
-import type { Session } from '../../migrations/00013-sessions';
 // import LogoutButton from './LogoutButton';
 import styles from './Navbar.module.scss';
 
@@ -21,7 +20,7 @@ const NavBar: React.FC = async () => {
         <div className={styles.logo}>
           <Link href="/">
             <Image
-              src="/path/to/logo.png"
+              src="/images/logo.png"
               alt="RaterHood Logo"
               width={150}
               height={75}

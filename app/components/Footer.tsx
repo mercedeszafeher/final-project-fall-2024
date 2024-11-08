@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import styles from './Footer.module.scss';
 
+// const currentYear = new Date().getFullYear();
+
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
-      <p>© {new Date().getFullYear()} RaterHood. All rights reserved.</p>
+      <p>© 2024 RaterHood. All rights reserved.</p>
       <p> Near or far. | Your trusted guide for discovering neighborhoods.</p>
       <p>
         Contact Us:{' '}
