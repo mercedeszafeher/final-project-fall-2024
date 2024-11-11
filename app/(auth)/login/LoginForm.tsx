@@ -1,17 +1,15 @@
-'use client';
-
 import AuthForm from '../../forms/AuthForm';
 import styles from '../../forms/AuthForm.module.scss';
 import WelcomeBackSection from './WelcomeBackSection';
 
 type Props = {
-  searchParams: Promise<{
+  searchParams?: {
     returnTo?: string | string[];
-  }>;
+  };
 };
 
-export default async function LoginPage(props: Props) {
-  const { returnTo } = (await props.searchParams) || {};
+export default async function LoginForm({ searchParams }: Props) {
+  const { returnTo } = searchParams || {};
 
   return (
     <div className={styles.pageContainer}>

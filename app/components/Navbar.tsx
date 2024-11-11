@@ -22,8 +22,8 @@ const NavBar: React.FC = async () => {
             <Image
               src="/images/logo.png"
               alt="RaterHood Logo"
-              width={150}
-              height={75}
+              width={200}
+              height={100}
             />
           </Link>
         </div>

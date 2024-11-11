@@ -1,9 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { Suspense } from 'react';
 import Footer from './components/Footer';
 import NavBar from './components/Navbar';
 
@@ -31,11 +30,17 @@ type Props = {
   children: ReactNode;
 };
 
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <NavBar />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <NavBar />
+        </Suspense>
         <main>{children}</main>
         <Footer />
       </body>

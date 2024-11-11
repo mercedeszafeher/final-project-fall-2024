@@ -1,4 +1,4 @@
-import RegisterForm from './RegisterPage';
+import RegisterForm from './RegisterForm';
 
 export default async function RegisterPage(props: any) {
   const { returnTo } = await props.searchParams;

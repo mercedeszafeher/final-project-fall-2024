@@ -1,18 +1,16 @@
-'use client';
-
 import AuthForm from '../../forms/AuthForm';
 import styles from '../../forms/AuthForm.module.scss';
 import TestimonialsSection from './TestimonialsSection';
 import WelcomeSection from './WelcomeSection';
 
 type Props = {
-  searchParams: Promise<{
+  searchParams?: {
     returnTo?: string | string[];
-  }>;
+  };
 };
 
-export default async function RegisterPage(props: Props) {
-  const { returnTo } = (await props.searchParams) || {};
+export default async function RegisterForm({ searchParams }: Props) {
+  const { returnTo } = searchParams || {};
 
   return (
     <div className={styles.pageContainer}>

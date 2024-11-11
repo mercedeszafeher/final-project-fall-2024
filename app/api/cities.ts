@@ -1,4 +1,3 @@
-// pages/api/cities.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sql } from '../../database/connect';
 
@@ -12,7 +11,7 @@ export default async function handler(
         name,
         country,
         description,
-        "imageUrl" AS "imageUrl",
+        "image_url" AS "imageUrl",
         "map_url" AS "mapUrl"
       FROM cities
       ORDER BY city_id DESC

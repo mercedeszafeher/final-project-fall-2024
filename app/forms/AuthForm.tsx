@@ -1,5 +1,5 @@
 'use client';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getSafeReturnPath } from '../../util/validation';
 import ErrorMessage from '../ErrorMessage';
@@ -11,6 +11,7 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
+  const router = useRouter();
   const [isRegister, setIsRegister] = useState(initialMode === 'register');
   const [isMobileView, setIsMobileView] = useState(false);
   const [username, setUsername] = useState('');
