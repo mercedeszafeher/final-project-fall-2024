@@ -6,6 +6,12 @@ export async function logout() {
   const cookieStore = await cookies();
 
   const token = cookieStore.get('sessionToken');
+
   // 2. Delete the session from the database based on the token
+  if (!token) {
+    return;
+  }
+
   // 3. Delete the session cookie from the browser
+  cookieStore.delete(token?.value);
 }

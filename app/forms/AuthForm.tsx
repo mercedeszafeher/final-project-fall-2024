@@ -137,7 +137,11 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
                   />
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <img src="/images/social-icon/twitter.png" alt="Twitter" className={styles.socialIcon} />
+                  <img
+                    src="/images/social-icon/twitter.png"
+                    alt="Twitter"
+                    className={styles.socialIcon}
+                  />
                 </a>
               </div>
               <input
@@ -180,13 +184,25 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
               <h1>Sign In</h1>
               <div className={styles.socialContainer}>
                 <a href="#" className={styles.socialIconLink}>
-                  <img src="/images/social-icon/facebook.png" alt="Facebook" className={styles.socialIcon} />
+                  <img
+                    src="/images/social-icon/facebook.png"
+                    alt="Facebook"
+                    className={styles.socialIcon}
+                  />
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <img src="/images/social-icon/instagram.png" alt="Instagram" className={styles.socialIcon} />
+                  <img
+                    src="/images/social-icon/instagram.png"
+                    alt="Instagram"
+                    className={styles.socialIcon}
+                  />
                 </a>
                 <a href="#" className={styles.socialIconLink}>
-                  <img src="/images/social-icon/twitter.png" alt="Twitter" className={styles.socialIcon} />
+                  <img
+                    src="/images/social-icon/twitter.png"
+                    alt="Twitter"
+                    className={styles.socialIcon}
+                  />
                 </a>
               </div>
               <input

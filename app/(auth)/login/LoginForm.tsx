@@ -1,7 +1,7 @@
 import AuthForm from '../../forms/AuthForm';
 import styles from '../../forms/AuthForm.module.scss';
-import BlogSection from '../../forms/BlogSection';
-import WelcomeBackSection from '../../forms/WelcomeBackSection';
+import BlogSection from './BlogSection';
+import WelcomeBackSection from './WelcomeBackSection';
 
 type Props = {
   searchParams?: {
