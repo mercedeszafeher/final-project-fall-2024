@@ -2,8 +2,8 @@ import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import LogoutButton from '../(auth)/logout/LogoutButton';
 import { getUser } from '../../database/users';
-// import LogoutButton from './LogoutButton';
 import styles from './Navbar.module.scss';
 
 const NavBar: React.FC = async () => {
@@ -52,6 +52,7 @@ const NavBar: React.FC = async () => {
             </>
           ) : (
             <>
+              <LogoutButton />
               <Link href="/login" className={styles.loginButton}>
                 Login
               </Link>
