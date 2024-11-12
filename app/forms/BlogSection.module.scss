@@ -17,7 +17,7 @@ $background-color: #3c4855;
   border-radius: 10px;
   max-width: 768px;
   width: 100%;
-  margin: 0 auto 20px;
+  margin: 20px auto 20px;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
@@ -27,16 +27,16 @@ $background-color: #3c4855;
 
     .imageContainer {
       margin: 0 auto 20px;
-      width: 100%;
-      height: auto;
+      width: 400px;
+      height: 250px;
       position: relative;
+      overflow: hidden;
     }
 
     .image {
       border-radius: 10px;
       object-fit: cover;
-      width: 100%;
-      height: auto;
+      filter: grayscale(10);
     }
 
     .blogTitle {
@@ -47,12 +47,17 @@ $background-color: #3c4855;
     }
 
     .blogContent {
-      font-size: 1.1em;
+      font-size: 1.1rem;
       color: #555;
       margin-bottom: 15px;
       font-family: 'Montserrat', sans-serif;
       line-height: 1.5;
       padding: 0 20px;
+      height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
     }
 
     .blogAuthor {
@@ -94,6 +99,11 @@ $background-color: #3c4855;
     padding: 20px;
 
     .blogBox {
+      .imageContainer {
+        width: 100%;
+        height: auto;
+      }
+
       .blogTitle {
         font-size: 1.5em;
       }

@@ -7,7 +7,7 @@ import styles from './BlogSection.module.scss';
 export default function BlogSection() {
   const blogPosts = [
     {
-      title: 'Discovering Hidden Gems in New York City',
+      title: 'Discovering Hidden Gems in NYC',
       content:
         "New York City is full of surprises. Last weekend, I stumbled upon a quaint little bookstore in Brooklyn that had the most amazing collection of vintage books. If you're ever in the area, it's a must-visit!",
       author: 'Alex Johnson',
