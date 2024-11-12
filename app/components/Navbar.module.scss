@@ -17,9 +17,17 @@ $hover-accent-color: #e0685a;
 
 .logo {
   flex-shrink: 0;
+  width: 100px;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   img {
-    max-height: 50px;
+    height: auto;
     width: auto;
+    max-height: 100px;
+    transform: scale(1.5);
   }
 }
 
