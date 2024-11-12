@@ -1,4 +1,4 @@
-// import 'server-only';
+import 'server-only';
 import { config } from 'dotenv-safe';
 import postgres, { type Sql } from 'postgres';
 import { postgresConfig } from '../util/config.js';
@@ -12,6 +12,9 @@ declare namespace globalThis {
 function connectOneTimeToDatabase() {
   if (!('postgresSqlClient' in globalThis)) {
     globalThis.postgresSqlClient = postgres(postgresConfig);
+    console.log('Connected to the database successfully.');
+  } else {
+    console.log('Using existing database connection.');
   }
 
   return globalThis.postgresSqlClient;

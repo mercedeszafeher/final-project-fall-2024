@@ -1,5 +1,4 @@
 import { cache } from 'react';
-import type { Session } from '../migrations/00013-sessions';
 import { sql } from './connect';
 
 export type City = {
@@ -7,6 +6,7 @@ export type City = {
   name: string;
   country: string;
   description: string | null;
+  image_url: string | null;
   map_url: string | null;
 };
 
@@ -20,8 +20,8 @@ export const getCitiesInsecure = cache(async () => {
 export const createCityInsecure = cache(
   async (newCity: Omit<City, 'city_id'>) => {
     const [city] = await sql<City[]>`
-    INSERT INTO cities (name, country, description, map_url)
-    VALUES (${newCity.name}, ${newCity.country}, ${newCity.description}, ${newCity.map_url})
+    INSERT INTO cities (name, country, description, image_url, map_url)
+    VALUES (${newCity.name}, ${newCity.country}, ${newCity.description}, ${newCity.image_url}, ${newCity.map_url})
     RETURNING *
   `;
     return city;

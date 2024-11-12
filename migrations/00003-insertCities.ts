@@ -6,52 +6,52 @@ export async function up(sql: Sql) {
       name: 'Vienna',
       country: 'Austria',
       description: 'Capital of Austria',
-      imageUrl: '/images/cities/vienna.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/vienna.jpg',
+      map_url: null,
     },
     {
       name: 'Oslo',
       country: 'Norway',
       description:
         'Experience the stunning fjords and vibrant culture of Oslo.',
-      imageUrl: '/images/cities/oslo.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/oslo.jpg',
+      map_url: null,
     },
     {
       name: 'Kyoto',
       country: 'Japan',
       description: 'Discover the ancient temples and serene gardens of Kyoto.',
-      imageUrl: '/images/cities/kyoto.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/kyoto.jpg',
+      map_url: null,
     },
     {
       name: 'Cape Town',
       country: 'South Africa',
       description: 'Enjoy breathtaking views from Table Mountain in Cape Town.',
-      imageUrl: '/images/cities/cape-town.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/cape-town.jpg',
+      map_url: null,
     },
     {
       name: 'Lisbon',
       country: 'Portugal',
       description: 'Explore the charming streets and rich history of Lisbon.',
-      imageUrl: '/images/cities/lisbon.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/lisbon.jpg',
+      map_url: null,
     },
     {
       name: 'Vancouver',
       country: 'Canada',
       description:
         'Experience the perfect blend of urban life and nature in Vancouver.',
-      imageUrl: '/images/cities/vancouver.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/vancouver.jpg',
+      map_url: null,
     },
     {
       name: 'Seoul',
       country: 'South Korea',
       description: 'Dive into the dynamic culture and cuisine of Seoul.',
-      imageUrl: '/images/cities/seoul.jpg',
-      mapUrl: null,
+      image_url: '/images/cities/seoul.jpg',
+      map_url: null,
     },
   ];
 
@@ -69,8 +69,8 @@ export async function up(sql: Sql) {
         ${city.name},
         ${city.country},
         ${city.description},
-        ${city.imageUrl},
-        ${city.mapUrl}
+        ${city.image_url},
+        ${city.map_url}
       )
     `;
   }

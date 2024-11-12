@@ -24,11 +24,16 @@ $background-color: #3c4855;
     font-size: 2em;
     cursor: pointer;
     user-select: none;
-    color: #888;
+    color: $accent-color;
     transition: color 0.3s;
 
     &:hover {
-      color: #555;
+      color: $accent-secondary-color;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 
