@@ -42,12 +42,12 @@ const NavBar: React.FC = async () => {
           {user ? (
             <>
               <Link
-                href="/#" //{`/profile/${user.username}`}
+                href={`/profile/${user.username}`}
                 className={styles.profileLink}
               >
                 {user.username}
               </Link>
-              <LogoutButton /> /* Logout button */
+              <LogoutButton />
             </>
           ) : (
             <>

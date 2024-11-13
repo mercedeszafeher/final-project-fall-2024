@@ -11,7 +11,7 @@ export async function GET(request: Request) {
         "image_url" AS "imageUrl",
         "map_url" AS "mapUrl"
       FROM cities
-      ORDER BY city_id DESC
+      ORDER BY id DESC
     `;
 
     return NextResponse.json({ cities }, { status: 200 });

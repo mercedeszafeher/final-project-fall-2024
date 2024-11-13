@@ -1,12 +1,18 @@
+// page.tsx
+// page.tsx
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getUserInsecure } from '../../../database/users';
+import UserProfile from '../UserProfile';
 
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }): Promise<Metadata> {
-  const singleUser = await getUserInsecure(params.username);
+  const { username } = await params;
+
+  const singleUser = await getUserInsecure(username);
 
   if (!singleUser) {
     return {
@@ -21,17 +27,18 @@ export async function generateMetadata({
   };
 }
 
-type Props = {
-  params: Promise<{
-    username: string;
-  }>;
-};
+export default async function UserProfilePage({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}) {
+  const { username } = await params;
 
-export default async function UserProfilePage(props: Props) {
-  const { username } = await props.params;
-  return (
-    <div>
-      <h2>{username}'s Profile</h2>
-    </div>
-  );
+  const singleUser = await getUserInsecure(username);
+
+  if (!singleUser) {
+    return <div>User not found</div>;
+  }
+
+  return <UserProfile user={singleUser} />;
 }

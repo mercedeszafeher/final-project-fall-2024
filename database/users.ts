@@ -24,12 +24,12 @@ export type UserWithPasswordHash = {
 export const getUser = cache(async (sessionToken: Session['token']) => {
   const [user] = await sql<User[]>`
     SELECT
-      users.user_id,
+      users.id,
       users.username
     FROM
       users
       INNER JOIN sessions ON (
-        sessions.user_id = users.user_id
+        sessions.user_id = users.id
         AND sessions.expiry_timestamp > now()
       )
     WHERE
@@ -145,7 +145,7 @@ export const createUserWithBasicInfo = cache(
         ${passwordHash},
         now()
       )
-      RETURNING user_id, username, email
+      RETURNING id, username, email
     `;
 
     return user;
