@@ -47,12 +47,10 @@ const NavBar: React.FC = async () => {
               >
                 {user.username}
               </Link>
-              {/* <LogoutButton className={styles.logoutButton} />{' '} */}
-              {/* Logout button */}
+              <LogoutButton /> /* Logout button */
             </>
           ) : (
             <>
-              <LogoutButton />
               <Link href="/login" className={styles.loginButton}>
                 Login
               </Link>

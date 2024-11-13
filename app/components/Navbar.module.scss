@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
 $primary-color: #343a40;
 $secondary-color: #ecf0f1;
 $accent-color: #ff8981;
@@ -61,6 +63,7 @@ $hover-accent-color: #e0685a;
   gap: 10px;
 
   .loginButton {
+    margin: 10px;
     padding: 10px 15px;
     border: 1px solid transparent;
     border-radius: 25px;
@@ -73,6 +76,7 @@ $hover-accent-color: #e0685a;
     &:hover {
       background-color: #e0675ab5;
       color: $secondary-color;
+      transform: scale(1.1);
     }
   }
 

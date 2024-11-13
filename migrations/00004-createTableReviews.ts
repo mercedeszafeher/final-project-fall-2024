@@ -12,9 +12,9 @@ export async function up(sql: Sql) {
 
   await sql`
     CREATE TABLE reviews (
-      review_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-      neighborhood_id INTEGER REFERENCES neighborhoods(neighborhood_id) ON DELETE CASCADE,
+      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      neighborhood_id INTEGER REFERENCES neighborhoods(id) ON DELETE CASCADE,
       rating rating_level NOT NULL,
       text TEXT,
       tags JSONB,

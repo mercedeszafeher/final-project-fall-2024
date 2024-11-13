@@ -3,7 +3,7 @@ import type { Sql } from 'postgres';
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE cities (
-      city_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       name VARCHAR(100) NOT NULL,
       country VARCHAR(100) NOT NULL,
       image_url VARCHAR,

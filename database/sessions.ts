@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import type { User } from '../migrations/00000-createTableUsers';
-import type { Session } from '../migrations/00013-sessions';
+import type { Session } from '../migrations/00010-sessions';
 import { sql } from './connect';
 
 // Fetch a valid session by checking if the session token is still active
@@ -35,7 +35,11 @@ export const createSession = cache(
       ${userId},
       now() + interval '24 hours'
     )
-    RETURNING token, user_id
+    RETURNING
+      id,
+      token,
+      user_id,
+      expiry_timestamp
   `;
 
     // Clean up expired sessions

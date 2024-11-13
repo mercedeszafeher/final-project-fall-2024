@@ -79,7 +79,7 @@ export async function POST(
   // 6. Return the new user's information, excluding sensitive fields like password
   return NextResponse.json({
     user: {
-      id: newUser.user_id,
+      id: newUser.id,
       username: newUser.username,
       email: newUser.email,
     },

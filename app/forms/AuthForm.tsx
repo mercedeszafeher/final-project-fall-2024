@@ -29,6 +29,9 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
   const toggleAuthMode = () => {
     setIsRegister(!isRegister);
     setErrors([]);
+    setUsername('');
+    setEmail('');
+    setPassword('');
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,11 +55,16 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
       return;
     }
 
+    if (!data.user || !data.user.username) {
+      setErrors([{ message: 'Login failed: Username not found.' }]);
+      return;
+    }
+
+    const redirectUsername = data.user?.username || username;
+
     // router.push(`/profile/${data.user.username}`);
 
-    router.push(
-      getSafeReturnPath(returnTo) || `/profile/${data.user.username}`,
-    );
+    router.push(getSafeReturnPath(returnTo) || `/profile/${redirectUsername}`);
   };
 
   return (

@@ -2,12 +2,10 @@ import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
-import { getUserWithPasswordHashInsecure } from '../../../../database/users';
-import {
-  type User,
-  userSchema,
-} from '../../../../migrations/00000-createTableUsers';
+import { getUserWithPasswordHashInsecureByEmail } from '../../../../database/users';
+import { type User } from '../../../../migrations/00000-createTableUsers';
 import { secureCookieOptions } from '../../../../util/cookies';
 
 export type LoginResponseBody =
@@ -18,6 +16,11 @@ export type LoginResponseBody =
       errors: { message: string }[];
     };
 
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
 export async function POST(
   request: Request,
 ): Promise<NextResponse<LoginResponseBody>> {
@@ -25,7 +28,7 @@ export async function POST(
   const requestBody = await request.json();
 
   // 2. Validate the user data with Zod schema
-  const result = userSchema.safeParse(requestBody);
+  const result = loginSchema.safeParse(requestBody);
 
   if (!result.success) {
     return NextResponse.json(
@@ -39,14 +42,14 @@ export async function POST(
   }
 
   // 3. Verify user credentials: retrieve user by username
-  const userWithPasswordHash = await getUserWithPasswordHashInsecure(
-    result.data.username,
+  const userWithPasswordHash = await getUserWithPasswordHashInsecureByEmail(
+    result.data.email,
   );
 
   if (!userWithPasswordHash) {
     return NextResponse.json(
       {
-        errors: [{ message: 'Username or password is invalid' }],
+        errors: [{ message: 'Email or password is invalid' }],
       },
       { status: 400 },
     );
@@ -61,7 +64,7 @@ export async function POST(
   if (!isPasswordValid) {
     return NextResponse.json(
       {
-        errors: [{ message: 'Username or password is invalid' }],
+        errors: [{ message: 'Email or password is invalid' }],
       },
       { status: 400 },
     );
@@ -71,7 +74,7 @@ export async function POST(
   const token = crypto.randomBytes(100).toString('base64');
 
   // 6. Create a session in the database with the token
-  const session = await createSession(userWithPasswordHash.user_id, token);
+  const session = await createSession(userWithPasswordHash.id, token);
 
   if (!session) {
     return NextResponse.json(

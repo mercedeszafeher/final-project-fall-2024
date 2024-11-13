@@ -1,9 +1,9 @@
 import { cache } from 'react';
-import type { Session } from '../migrations/00013-sessions';
+import type { Session } from '../migrations/00010-sessions';
 import { sql } from './connect';
 
 export type User = {
-  user_id: number;
+  id: number;
   username: string;
   email: string;
   password: string;
@@ -13,7 +13,10 @@ export type User = {
   created_at: Date;
 };
 
-export type UserWithPasswordHash = User & {
+export type UserWithPasswordHash = {
+  id: number;
+  username: string;
+  email: string;
   passwordHash: string;
 };
 
@@ -40,7 +43,7 @@ export const getUser = cache(async (sessionToken: Session['token']) => {
 export const getUserInsecure = cache(async (username: User['username']) => {
   const [user] = await sql<User[]>`
     SELECT
-      user_id,
+      id,
       username
     FROM
       users
@@ -55,7 +58,7 @@ export const getUserInsecure = cache(async (username: User['username']) => {
 export const getUserByEmail = cache(async (email: User['email']) => {
   const [user] = await sql<User[]>`
     SELECT
-      user_id,
+      id,
       username,
       email
     FROM
@@ -66,6 +69,25 @@ export const getUserByEmail = cache(async (email: User['email']) => {
 
   return user;
 });
+
+// Fetch user by email with password hash
+export const getUserWithPasswordHashInsecureByEmail = cache(
+  async (email: User['email']) => {
+    const [user] = await sql<UserWithPasswordHash[]>`
+      SELECT
+        id,
+        username,
+        email,
+        password_hash AS "passwordHash"
+      FROM
+        users
+      WHERE
+        email = ${email}
+    `;
+
+    return user;
+  },
+);
 
 // Create a new user with full information, returns the user's ID and username
 export const createUser = cache(
@@ -135,7 +157,7 @@ export const getUserWithPasswordHashInsecure = cache(
   async (username: User['username']) => {
     const [user] = await sql<UserWithPasswordHash[]>`
       SELECT
-        user_id,
+        id,
         username,
         password_hash
       FROM

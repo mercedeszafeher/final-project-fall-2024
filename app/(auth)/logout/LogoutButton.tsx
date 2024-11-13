@@ -3,13 +3,14 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { logout } from './actions';
+import styles from './LogoutButton.module.scss';
 
 export default async function LogoutButton() {
   const router = useRouter();
   return (
     <form>
       <button
-        className="logoutButton"
+        className={styles.logoutButton}
         formAction={async () => {
           await logout();
           router.refresh();
