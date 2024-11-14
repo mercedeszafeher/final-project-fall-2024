@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LogoutButton from '../(auth)/logout/LogoutButton';
-import { getUser } from '../../database/users';
+import { getUserBySessionToken } from '../../database/users';
 import styles from './Navbar.module.scss';
 
 const NavBar: React.FC = async () => {
@@ -11,7 +11,9 @@ const NavBar: React.FC = async () => {
   const sessionTokenCookie = (await cookies()).get('sessionToken');
 
   // Get the current logged-in user from the database using the session token
-  const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
+  const user =
+    sessionTokenCookie &&
+    (await getUserBySessionToken(sessionTokenCookie.value));
 
   return (
     <header className={styles.header}>

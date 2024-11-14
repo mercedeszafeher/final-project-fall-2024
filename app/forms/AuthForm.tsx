@@ -65,6 +65,7 @@ export default function AuthForm({ initialMode, returnTo }: AuthFormProps) {
     // router.push(`/profile/${data.user.username}`);
 
     router.push(getSafeReturnPath(returnTo) || `/profile/${redirectUsername}`);
+    router.refresh();
   };
 
   return (

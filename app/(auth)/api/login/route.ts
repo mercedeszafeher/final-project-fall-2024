@@ -24,10 +24,10 @@ const loginSchema = z.object({
 export async function POST(
   request: Request,
 ): Promise<NextResponse<LoginResponseBody>> {
-  // 1. Parse the user data from the request body
+  // Parse the user data from the request body
   const requestBody = await request.json();
 
-  // 2. Validate the user data with Zod schema
+  // Validate the user data with Zod schema
   const result = loginSchema.safeParse(requestBody);
 
   if (!result.success) {
@@ -41,7 +41,7 @@ export async function POST(
     );
   }
 
-  // 3. Verify user credentials: retrieve user by username
+  // Verify user credentials: retrieve user by username
   const userWithPasswordHash = await getUserWithPasswordHashInsecureByEmail(
     result.data.email,
   );
@@ -55,7 +55,7 @@ export async function POST(
     );
   }
 
-  // 4. Validate the password by comparing with the stored hash
+  // Validate the password by comparing with the stored hash
   const isPasswordValid = await bcrypt.compare(
     result.data.password,
     userWithPasswordHash.passwordHash,
@@ -70,10 +70,10 @@ export async function POST(
     );
   }
 
-  // 5. Generate a secure session token
+  // Generate a secure session token
   const token = crypto.randomBytes(100).toString('base64');
 
-  // 6. Create a session in the database with the token
+  // Create a session in the database with the token
   const session = await createSession(userWithPasswordHash.id, token);
 
   if (!session) {
@@ -81,18 +81,18 @@ export async function POST(
       {
         errors: [{ message: 'Error creating session' }],
       },
-      { status: 500 },
+      { status: 401 },
     );
   }
 
-  // 7. Set a secure session cookie
+  // Set a secure session cookie
   (await cookies()).set({
     name: 'sessionToken',
     value: session.token,
     ...secureCookieOptions,
   });
 
-  // 8. Respond with the user's basic information (excluding password hash)
+  // Respond with the user's basic information (excluding password hash)
   return NextResponse.json({
     user: {
       username: userWithPasswordHash.username,

@@ -16,7 +16,7 @@ export default async function RegisterForm({ searchParams }: Props) {
   const { returnTo } = searchParams || {};
 
   // Check if the sessionToken cookie exists
-  const sessionTokenCookie = (await cookies()).get('sessionToke');
+  const sessionTokenCookie = (await cookies()).get('sessionToken');
 
   // Check if the sessionToken is still valid
   const session =

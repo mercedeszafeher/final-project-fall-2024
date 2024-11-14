@@ -21,23 +21,46 @@ export type UserWithPasswordHash = {
 };
 
 // Fetch a user securely by session token
-export const getUser = cache(async (sessionToken: Session['token']) => {
-  const [user] = await sql<User[]>`
+export const getUserBySessionToken = cache(
+  async (sessionToken: Session['token']) => {
+    const [user] = await sql<User[]>`
     SELECT
       users.id,
-      users.username
+      users.username,
+      users.email,
+      users.profile_pic,
+      users.location,
+      users.bio
     FROM
       users
-      INNER JOIN sessions ON (
-        sessions.user_id = users.id
-        AND sessions.expiry_timestamp > now()
-      )
+      INNER JOIN sessions ON users.id = sessions.user_id
     WHERE
       sessions.token = ${sessionToken}
+      AND sessions.expiry_timestamp > NOW()
+  `;
+
+    return user;
+  },
+);
+
+// Fetch user by ID
+export async function getUserById(id: number) {
+  const [user] = await sql<User[]>`
+    SELECT
+      id,
+      username,
+      email,
+      profile_pic,
+      location,
+      bio
+    FROM
+      users
+    WHERE
+      id = ${id}
   `;
 
   return user;
-});
+}
 
 // Fetch a user insecurely by username
 export const getUserInsecure = cache(async (username: User['username']) => {
@@ -88,6 +111,40 @@ export const getUserWithPasswordHashInsecureByEmail = cache(
     return user;
   },
 );
+
+// Fetch a user with their password hash by username (for login validation)
+export const getUserWithPasswordHashInsecure = cache(
+  async (username: User['username']) => {
+    const [user] = await sql<UserWithPasswordHash[]>`
+      SELECT
+        id,
+        username,
+        password_hash
+      FROM
+        users
+      WHERE
+        username = ${username}
+    `;
+
+    return user;
+  },
+);
+
+// Fetch a user with their password hash by ID
+export async function getUserWithPasswordHashById(id: number) {
+  const [user] = await sql<UserWithPasswordHash[]>`
+    SELECT
+      id,
+      username,
+      password_hash AS "passwordHash"
+    FROM
+      users
+    WHERE
+      id = ${id}
+  `;
+
+  return user;
+}
 
 // Create a new user with full information, returns the user's ID and username
 export const createUser = cache(
@@ -152,20 +209,53 @@ export const createUserWithBasicInfo = cache(
   },
 );
 
-// Fetch a user with their password hash by username (for login validation)
-export const getUserWithPasswordHashInsecure = cache(
-  async (username: User['username']) => {
-    const [user] = await sql<UserWithPasswordHash[]>`
-      SELECT
-        id,
-        username,
-        password_hash
-      FROM
-        users
-      WHERE
-        username = ${username}
-    `;
+// Update user by ID
+export async function updateUserById(
+  id: number,
+  username: string,
+  email: string,
+  profile_pic: string | null,
+  location: string | null,
+  bio: string | null,
+): Promise<User | undefined> {
+  const [user] = await sql<User[]>`
+    UPDATE users
+    SET
+      username = ${username},
+      email = ${email},
+      profile_pic = ${profile_pic},
+      location = ${location},
+      bio = ${bio}
+    WHERE
+      id = ${id}
+    RETURNING
+      id,
+      username,
+      email,
+      profile_pic,
+      location,
+      bio
+  `;
 
-    return user;
-  },
-);
+  return user;
+}
+
+// Update user's password by ID
+export async function updateUserPasswordById(id: number, passwordHash: string) {
+  const [user] = await sql<User[]>`
+    UPDATE users
+    SET
+      password_hash = ${passwordHash}
+    WHERE
+      id = ${id}
+    RETURNING
+      id,
+      username,
+      email,
+      profile_pic,
+      location,
+      bio
+  `;
+
+  return user;
+}

@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+$primary-color: #343a40;
+$accent-color: #ff8981;
+$accent-secondary-color: #fb4b48;
+$secondary-color: #ecf0f1;
+
+.profileContainer {
+  background-color: #ffffff;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileHeader {
+  text-align: center;
+  margin-bottom: 20px;
+  .profileTitle {
+    font-size: 2rem;
+    color: $primary-color;
+  }
+}
+
+.profileContent {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+
+  .profilePicture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: $secondary-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #777;
+    position: relative;
+  }
+
+  .profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profilePictureInput {
+    display: none;
+  }
+
+  .profileImageInputLabel {
+    display: block;
+    margin-top: 10px;
+    background-color: $accent-color;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $accent-secondary-color;
+    }
+  }
+}
+
+.rightSection {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+    .formLabel {
+      color: $primary-color;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .formInput,
+    .formTextarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .formTextarea {
+      resize: vertical;
+    }
+  }
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: $accent-color;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: $accent-secondary-color;
+  }
+}
+
+.errors {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Responsive Design Adjustments */
+
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 15px;
+    max-width: 100%;
+    margin: 10px;
+  }
+
+  .profileHeader .profileTitle {
+    font-size: 1.8rem;
+  }
+
+  .profileContent {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .leftSection {
+    width: 100%;
+
+    .profilePicture {
+      width: 100px;
+      height: 100px;
+    }
+
+    .profileImageInputLabel {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .rightSection {
+    width: 100%;
+
+    .formGroup {
+      .formLabel {
+        font-size: 0.9rem;
+      }
+      .formInput,
+      .formTextarea {
+        padding: 6px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .submitButton {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
