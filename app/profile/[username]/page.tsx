@@ -60,5 +60,9 @@ export default async function ProfilePage({
 
   const isOwnProfile = loggedInUser.username === username;
 
-  return <UserProfile user={singleUser} isOwnProfile={isOwnProfile} />;
+  return (
+    <>
+      <UserProfile user={singleUser} isOwnProfile={isOwnProfile} />
+    </>
+  );
 }

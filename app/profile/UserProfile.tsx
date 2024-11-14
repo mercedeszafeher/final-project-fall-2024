@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { User } from '../../database/users';
 import styles from './UserProfile.module.scss';
 
@@ -10,56 +10,38 @@ type UserProfileProps = {
 };
 
 export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
-  if (!isOwnProfile) {
-    return (
-      <div className={styles.profileContainer}>
-        <header className={styles.profileHeader}>
-          <h1 className={styles.profileTitle}>{user.username}'s Profile</h1>
-        </header>
-        <div className={styles.profileContent}>
-          <div className={styles.leftSection}>
-            {user.profile_pic ? (
-              <img
-                src={user.profile_pic}
-                alt="Profile Picture"
-                className={styles.profileImage}
-              />
-            ) : (
-              <div className={styles.profilePicture}>No Picture</div>
-            )}
-          </div>
-          <div className={styles.rightSection}>
-            <p>
-              <strong>Location:</strong> {user.location}
-            </p>
-            <p>
-              <strong>Bio:</strong> {user.bio}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [location, setLocation] = useState(user.location || '');
-  const [bio, setBio] = useState(user.bio || '');
-  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [email, setEmail] = useState('');
+  const [location, setLocation] = useState('');
+  const [bio, setBio] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const response = await fetch(`/api/users/${user.id}`);
+      const data = await response.json();
+
+      if (response.ok) {
+        setEmail(data.user.email);
+        setLocation(data.user.location);
+        setBio(data.user.bio);
+      } else {
+        console.error('Failed to load user data:', data.error);
+      }
+    };
+    fetchUserData();
+  }, [user.id]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const updatedData = {
-      username,
-      email,
+      email: email || user.email,
       location,
       bio,
-      profile_pic: profilePic,
       currentPassword,
       newPassword,
       confirmNewPassword,
@@ -73,32 +55,24 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
       body: JSON.stringify(updatedData),
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrors(data.errors.map((error: any) => error.message));
+    if (response.ok) {
+      const data = await response.json();
+      setEmail(data.user.email);
+      setLocation(data.user.location);
+      setBio(data.user.bio);
+      setIsEditing(false);
+      setErrors([]);
     } else {
-      alert('Profile updated successfully!');
+      const data = await response.json();
+      setErrors(data.errors.map((error: any) => error.message));
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.profileContainer}>
-      {errors.length > 0 && (
-        <div className={styles.errors}>
-          {errors.map((error) => (
-            <div key={error}>{error}</div>
-          ))}
-        </div>
-      )}
-
-      <header className={styles.profileHeader}>
-        <h1 className={styles.profileTitle}>{user.username}'s Profile</h1>
-      </header>
-
-      <div className={styles.profileContent}>
-        <div className={styles.leftSection}>
-          <div className={styles.profilePicture}>
+    <div className={styles.profileContainer}>
+      {user && (
+        <div className={styles.profileCard}>
+          <div className={styles.profileImageContainer}>
             {user.profile_pic ? (
               <img
                 src={user.profile_pic}
@@ -106,100 +80,116 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
                 className={styles.profileImage}
               />
             ) : (
-              <div className={styles.profileImage}>No Picture</div>
+              <div className={styles.noProfileImage}>No Picture</div>
             )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const files = e.target.files;
-                if (files && files.length > 0) {
-                  setProfilePic(files[0]);
-                } else {
-                  setProfilePic(null);
-                }
-              }}
-              className={styles.profilePictureInput}
-            />
+          </div>
+
+          <div className={styles.profileInfo}>
+            <h1 className={styles.profileHeader}>{user.username}</h1>
+
+            {!isEditing ? (
+              <>
+                <p className={styles.profileBio}>{bio}</p>
+                <p className={styles.profileLocation}>{location}</p>
+                <p className={styles.profileEmail}>{email}</p>
+
+                {isOwnProfile && (
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className={styles.actionButton}
+                  >
+                    Edit Profile
+                  </button>
+                )}
+              </>
+            ) : (
+              <form onSubmit={handleSubmit} className={styles.editProfileForm}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Bio:</label>
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    className={styles.formTextarea}
+                  ></textarea>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Location:</label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className={styles.formInput}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Email:</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={styles.formInput}
+                  />
+                </div>
+
+                {/* Password Change Fields */}
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Current Password:</label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className={styles.formInput}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>New Password:</label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={styles.formInput}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>
+                    Confirm New Password:
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    className={styles.formInput}
+                  />
+                </div>
+
+                <button type="submit" className={styles.actionButton}>
+                  Save Changes
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className={styles.cancelButton}
+                >
+                  Cancel
+                </button>
+              </form>
+            )}
+
+            {errors.length > 0 && (
+              <div className={styles.errors}>
+                {errors.map((error) => (
+                  <div key={error}>{error}</div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-
-        <div className={styles.rightSection}>
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Username:</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Location:</label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Bio:</label>
-            <textarea
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              className={styles.formTextarea}
-            ></textarea>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Email:</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          {/* Password Change */}
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Current Password:</label>
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>New Password:</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Confirm New Password:</label>
-            <input
-              type="password"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
-              className={styles.formInput}
-            />
-          </div>
-
-          <button type="submit" className={styles.submitButton}>
-            Update Profile
-          </button>
-        </div>
-      </div>
-    </form>
+      )}
+    </div>
   );
 }
