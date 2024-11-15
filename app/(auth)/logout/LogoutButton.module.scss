@@ -11,8 +11,8 @@ $hover-accent-color: #e0685a;
   font-size: 16px;
   border: 1px solid transparent;
   border-radius: 25px;
-  color: $primary-color;
   border-color: $hover-accent-color;
+  color: $primary-color;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;

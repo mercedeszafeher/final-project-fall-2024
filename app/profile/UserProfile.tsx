@@ -1,3 +1,5 @@
+// app/profile/UserProfile.tsx
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -9,27 +11,41 @@ type UserProfileProps = {
   isOwnProfile: boolean;
 };
 
-export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
+export default function UserProfile({
+  user,
+  isOwnProfile,
+}: UserProfileProps): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState('');
-  const [bio, setBio] = useState('');
+  const [email, setEmail] = useState(user.email);
+  const [location, setLocation] = useState(user.location || '');
+  const [bio, setBio] = useState(user.bio || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await fetch(`/api/users/${user.id}`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/users/${user.id}`, {
+          method: 'GET',
+        });
 
-      if (response.ok) {
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Failed to load user data:', errorData.errors);
+          setErrors(errorData.errors.map((error: any) => error.message));
+          return;
+        }
+
+        const data = await response.json();
         setEmail(data.user.email);
         setLocation(data.user.location);
         setBio(data.user.bio);
-      } else {
-        console.error('Failed to load user data:', data.error);
+      } catch (error) {
+        console.error('An error occurred while fetching user data:', error);
+        setErrors(['Failed to load user data. Please try again later.']);
       }
     };
     fetchUserData();
@@ -38,33 +54,55 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const updatedData = {
-      email: email || user.email,
+    if (!isEditing) return;
+
+    const updatedData: any = {
+      email,
       location,
       bio,
-      currentPassword,
-      newPassword,
-      confirmNewPassword,
     };
 
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
+    if (newPassword) {
+      updatedData.currentPassword = currentPassword;
+      updatedData.newPassword = newPassword;
+      updatedData.confirmNewPassword = confirmNewPassword;
+    }
 
-    if (response.ok) {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+
       const data = await response.json();
+
+      if (!response.ok) {
+        if (data.errors && Array.isArray(data.errors)) {
+          setErrors(data.errors.map((error: any) => error.message));
+        } else {
+          setErrors(['An unknown error occurred.']);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // Update state with the updated user data
       setEmail(data.user.email);
       setLocation(data.user.location);
       setBio(data.user.bio);
       setIsEditing(false);
       setErrors([]);
-    } else {
-      const data = await response.json();
-      setErrors(data.errors.map((error: any) => error.message));
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('An error occurred while updating the profile:', error);
+      setErrors(['Failed to update profile. Please try again later.']);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,25 +111,26 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
       {user && (
         <div className={styles.profileCard}>
           <div className={styles.profileImageContainer}>
-            {user.profile_pic ? (
-              <img
-                src={user.profile_pic}
-                alt="Profile Picture"
-                className={styles.profileImage}
-              />
-            ) : (
-              <div className={styles.noProfileImage}>No Picture</div>
-            )}
+            {/* Display Default Profile Picture */}
+            <img
+              src="/images/default-profile.png" // Ensure this path is correct and the image exists
+              alt="Default Profile"
+              className={styles.profileImage}
+            />
           </div>
 
           <div className={styles.profileInfo}>
-            <h1 className={styles.profileHeader}>{user.username}</h1>
+            <h1 className={styles.profileHeader}>{user.username}'s Profile</h1>
 
             {!isEditing ? (
               <>
                 <p className={styles.profileBio}>{bio}</p>
-                <p className={styles.profileLocation}>{location}</p>
-                <p className={styles.profileEmail}>{email}</p>
+                <p className={styles.profileLocation}>
+                  <strong>Location:</strong> {location}
+                </p>
+                <p className={styles.profileEmail}>
+                  <strong>Email:</strong> {email}
+                </p>
 
                 {isOwnProfile && (
                   <button
@@ -105,12 +144,14 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
             ) : (
               <form onSubmit={handleSubmit} className={styles.editProfileForm}>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Bio:</label>
-                  <textarea
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    className={styles.formTextarea}
-                  ></textarea>
+                  <label className={styles.formLabel}>Email:</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={styles.formInput}
+                    required
+                  />
                 </div>
 
                 <div className={styles.formGroup}>
@@ -124,13 +165,12 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Email:</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={styles.formInput}
-                  />
+                  <label className={styles.formLabel}>Bio:</label>
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    className={styles.formTextarea}
+                  ></textarea>
                 </div>
 
                 {/* Password Change Fields */}
@@ -166,13 +206,20 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
                   />
                 </div>
 
-                <button type="submit" className={styles.actionButton}>
-                  Save Changes
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={loading}
+                >
+                  {loading ? 'Saving...' : 'Save Changes'}
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setIsEditing(false)}
+                  onClick={() => {
+                    setIsEditing(false);
+                    setErrors([]);
+                  }}
                   className={styles.cancelButton}
                 >
                   Cancel
@@ -182,8 +229,8 @@ export default function UserProfile({ user, isOwnProfile }: UserProfileProps) {
 
             {errors.length > 0 && (
               <div className={styles.errors}>
-                {errors.map((error) => (
-                  <div key={error}>{error}</div>
+                {errors.map((error, index) => (
+                  <div key={index}>{error}</div>
                 ))}
               </div>
             )}

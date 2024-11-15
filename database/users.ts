@@ -214,7 +214,6 @@ export async function updateUserById(
   id: number,
   username: string,
   email: string,
-  profile_pic: string | null,
   location: string | null,
   bio: string | null,
 ): Promise<User | undefined> {
@@ -223,7 +222,6 @@ export async function updateUserById(
     SET
       username = ${username},
       email = ${email},
-      profile_pic = ${profile_pic},
       location = ${location},
       bio = ${bio}
     WHERE
