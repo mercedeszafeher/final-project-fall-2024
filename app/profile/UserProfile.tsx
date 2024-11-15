@@ -111,7 +111,7 @@ export default function UserProfile({
           <div className={styles.profileImageContainer}>
             {/* Display Default Profile Picture */}
             <img
-              src="/images/default-profile.png" // Ensure this path is correct and the image exists
+              src="/images/default-profile.png"
               alt="Default Profile"
               className={styles.profileImage}
             />
