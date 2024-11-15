@@ -5,7 +5,7 @@ import React from 'react';
 import { logout } from './actions';
 import styles from './LogoutButton.module.scss';
 
-export default async function LogoutButton() {
+export default function LogoutButton() {
   const router = useRouter();
 
   const handleLogout = async () => {

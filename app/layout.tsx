@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import type { ReactNode } from 'react';
-import { Suspense } from 'react';
 import Footer from './components/Footer';
 import NavBar from './components/Navbar';
 
@@ -38,9 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Suspense fallback={<div>Loading navigation...</div>}>
-          <NavBar />
-        </Suspense>
+        <NavBar />
         <main>{children}</main>
         <Footer />
       </body>
