@@ -33,7 +33,7 @@ const NavBar: React.FC = async () => {
         {/* Navigation Links */}
         <nav className={styles.nav}>
           <Link href="/">Home</Link>
-          <Link href="/#">About</Link>
+          <Link href="/about">About</Link>
           <Link href="/#">Contact</Link>
           <Link href="/#">Review</Link>
           <Link href="/#">Cities</Link>

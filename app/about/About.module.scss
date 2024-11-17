@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+$primary-color: #343a40;
+$secondary-color: #ecf0f1;
+$accent-color: #ff8981;
+$accent-secondary-color: #fb4b48;
+$background-color: #3c4855;
+
+.aboutContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  max-width: 768px;
+  width: 100%;
+  margin: 20px auto 20px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.aboutSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: $primary-color;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  color: $primary-color;
+  margin-top: 1.5rem;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: justify;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding: 0 20px;
+  justify-items: center;
+}
+
+.featureCard {
+  background-color: #fff;
+  border: 2px solid #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+  width: 100%;
+  max-width: 300px;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .iconContainer {
+    margin-bottom: 15px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: grayscale(20%);
+    transition: filter 0.3s;
+
+    &:hover {
+      filter: grayscale(0%);
+    }
+  }
+
+  .featureTitle {
+    font-size: 1.4rem;
+    color: $primary-color;
+    margin-bottom: 10px;
+    font-weight: 800;
+  }
+
+  .featureDescription {
+    font-size: 1rem;
+    color: #777;
+    line-height: 1.4;
+  }
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-areas:
+    'founder cto'
+    'designer programmer'
+    'communications communications';
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.teamMember {
+  text-align: center;
+}
+
+.teamMember.founder {
+  grid-area: founder;
+}
+
+.teamMember.cto {
+  grid-area: cto;
+}
+
+.teamMember.designer {
+  grid-area: designer;
+}
+
+.teamMember.programmer {
+  grid-area: programmer;
+}
+
+.teamMember.communications {
+  grid-area: communications;
+}
+
+.memberImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #ddd;
+  filter: grayscale(10);
+}
+
+.memberName {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: $primary-color;
+  margin-bottom: 0.3rem;
+}
+
+.memberRole {
+  font-size: 1.1rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.memberLink {
+  font-size: 1rem;
+  color: $accent-color;
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $accent-secondary-color;
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 992px) {
+  .teamGrid {
+    grid-template-areas:
+      'founder'
+      'cto'
+      'designer'
+      'programmer'
+      'communications';
+  }
+
+  .aboutContainer {
+    padding: 30px 15px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1.6rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+
+  .featureTitle {
+    font-size: 1.3rem;
+  }
+
+  .featureDescription {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .teamGrid {
+    grid-template-areas:
+      'founder'
+      'cto'
+      'designer'
+      'programmer'
+      'communications';
+    grid-template-columns: 1fr;
+  }
+
+  .aboutContainer {
+    padding: 20px 10px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.4rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .memberImage {
+    width: 120px;
+    height: 120px;
+  }
+
+  .featureCard {
+    padding: 15px;
+  }
+}
