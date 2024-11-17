@@ -34,7 +34,7 @@ const NavBar: React.FC = async () => {
         <nav className={styles.nav}>
           <Link href="/">Home</Link>
           <Link href="/about">About</Link>
-          <Link href="/#">Contact</Link>
+          <Link href="/contact">Contact</Link>
           <Link href="/#">Review</Link>
           <Link href="/#">Cities</Link>
         </nav>

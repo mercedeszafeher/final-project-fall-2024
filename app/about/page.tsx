@@ -15,7 +15,7 @@ export default function AboutPage() {
     <>
       <ContentContainer className={styles.aboutContainer}>
         <section className={styles.aboutSection}>
-          <h1 className={styles.title}>About Raterhood</h1>
+          <h1 className={styles.title}>The Idea behind Raterhood</h1>
           <p className={styles.description}>
             Raterhood is a web application designed to help individuals who are
             planning to move to a new city by providing comprehensive insights
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
           <h2 className={styles.subtitle}>Our Team</h2>
           <div className={styles.teamGrid}>
-            <div className={styles.teamMember}>
+            <div className={`${styles.teamMember} ${styles.founder}`}>
               <Image
                 src="/images/team/emily-clark.jpg"
                 alt="John Doe, Founder & CEO of Raterhood"
@@ -127,12 +127,13 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.memberLink}
+                aria-label={`LinkedIn profile of Emily Clark`}
               >
                 LinkedIn
               </a>
             </div>
 
-            <div className={styles.teamMember}>
+            <div className={`${styles.teamMember} ${styles.cto}`}>
               <Image
                 src="/images/team/sean-smith.jpg"
                 alt="Jane Smith, Chief Technology Officer of Raterhood"
@@ -147,12 +148,13 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.memberLink}
+                aria-label={`LinkedIn profile of Sean Smith`}
               >
                 LinkedIn
               </a>
             </div>
 
-            <div className={styles.teamMember}>
+            <div className={`${styles.teamMember} ${styles.programmer}`}>
               <Image
                 src="/images/team/sophia-martinez.jpg"
                 alt="Sophia Martinez, Lead Programmer of Raterhood"
@@ -167,12 +169,13 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.memberLink}
+                aria-label={`LinkedIn profile of Sophia Martinez`}
               >
                 LinkedIn
               </a>
             </div>
 
-            <div className={styles.teamMember}>
+            <div className={`${styles.teamMember} ${styles.designer}`}>
               <Image
                 src="/images/team/liam-johnson.jpg"
                 alt="Liam Johnson, UI/UX Designer of Raterhood"
@@ -187,12 +190,13 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.memberLink}
+                aria-label={`LinkedIn profile of Liam Johnson`}
               >
                 LinkedIn
               </a>
             </div>
 
-            <div className={styles.teamMember}>
+            <div className={`${styles.teamMember} ${styles.communications}`}>
               <Image
                 src="/images/team/olivia-davis.jpg"
                 alt="Olivia Davis, Communications Manager of Raterhood"
@@ -207,6 +211,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.memberLink}
+                aria-label={`LinkedIn profile of Olivia Davis`}
               >
                 LinkedIn
               </a>

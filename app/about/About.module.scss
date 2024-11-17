@@ -29,7 +29,7 @@ $background-color: #3c4855;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
   color: $primary-color;
   text-align: center;
@@ -78,23 +78,17 @@ $background-color: #3c4855;
 
   .iconContainer {
     margin-bottom: 15px;
-    width: 80px;
-    height: 80px;
+    width: 250px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .icon {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    filter: grayscale(20%);
-    transition: filter 0.3s;
-
-    &:hover {
-      filter: grayscale(0%);
-    }
+    object-fit: cover;
+    border-radius: 50px;
+    filter: grayscale(100);
   }
 
   .featureTitle {
@@ -153,7 +147,7 @@ $background-color: #3c4855;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1rem;
-  border: 3px solid #ddd;
+  border: 3px solid $accent-color;
   filter: grayscale(10);
 }
 
