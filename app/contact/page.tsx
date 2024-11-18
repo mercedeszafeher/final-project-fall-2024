@@ -155,7 +155,7 @@ export default function ContactPage() {
             <h2 className={styles.infoTitle}>Get in Touch</h2>
             <div className={styles.infoItem}>
               <Image
-                src="/images/icons/address.svg"
+                src="/images/social-icon/address.png"
                 alt="Address Icon"
                 width={40}
                 height={40}
