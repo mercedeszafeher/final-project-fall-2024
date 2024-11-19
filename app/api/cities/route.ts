@@ -5,11 +5,14 @@ export async function GET(request: Request) {
   try {
     const cities = await sql`
       SELECT
+        id,
         name,
         country,
         description,
         "image_url" AS "imageUrl",
-        "map_url" AS "mapUrl"
+        "map_url" AS "mapUrl",
+        lat,
+        lng
       FROM cities
       ORDER BY id DESC
     `;
