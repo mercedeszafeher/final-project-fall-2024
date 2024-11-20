@@ -7,14 +7,13 @@ type MapSelectorProps = {
 
 const MapSelector: React.FC<MapSelectorProps> = ({ onCitySelect }) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<MapLibreMap | null>(null);
   const [lng, setLng] = useState(16.3889);
   const [lat, setLat] = useState(48.16502);
   const [zoom, setZoom] = useState(14);
 
   useEffect(() => {
     // Initialize the map
-    const mapInstance = new maplibregl.Map({
+    const map = new maplibregl.Map({
       container: mapContainerRef.current!,
       style:
         'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=d90g9A5KwVmxFrD7ZGrH',
@@ -23,7 +22,7 @@ const MapSelector: React.FC<MapSelectorProps> = ({ onCitySelect }) => {
     });
 
     // Handle map clicks to select a location
-    mapInstance.on('click', async (e) => {
+    map.on('click', async (e) => {
       const { lng, lat } = e.lngLat;
 
       // Fetch city name via reverse geocoding
@@ -31,19 +30,21 @@ const MapSelector: React.FC<MapSelectorProps> = ({ onCitySelect }) => {
         `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=d90g9A5KwVmxFrD7ZGrH`,
       );
       const data = await response.json();
-      const city = data.features.find((feature: any) =>
-        feature.place_type.includes('place'),
+      const cityFeature = data.features.find(
+        (feature: any) =>
+          feature.place_type.includes('place') ||
+          feature.types?.includes('locality'),
       );
 
-      if (city) {
-        onCitySelect({ name: city.properties.name, lng, lat });
+      if (cityFeature) {
+        const cityName = cityFeature.text || cityFeature.properties.name || 'Unknown City';
+        onCitySelect({ name: cityName, lng, lat });
+      } else {
+        alert('City not found. Please click closer to a city.');
       }
     });
 
-    // Save map instance to state
-    setMap(mapInstance);
-
-    return () => mapInstance.remove();
+    return () => map.remove();
   }, []);
 
   return (

@@ -14,7 +14,27 @@ type City = {
 
 const ReviewPage: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('/api/session');
+        if (response.ok) {
+          const data = await response.json();
+          setUserId(data.userId);
+        } else {
+          setUserId(null);
+        }
+      } catch (error) {
+        console.error('Error fetching user session:', error);
+        setUserId(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     if (selectedCity && document.getElementById('city-map')) {
@@ -24,7 +44,7 @@ const ReviewPage: React.FC = () => {
           style:
             'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=d90g9A5KwVmxFrD7ZGrH',
           center: [selectedCity.lng, selectedCity.lat],
-          zoom: 14,
+          zoom: 12,
         });
         setMapInstance(map);
       } else {
@@ -40,12 +60,19 @@ const ReviewPage: React.FC = () => {
       );
       const data = await response.json();
 
-      const cityFeature = data.features.find((feature: any) =>
-        feature.place_type.includes('place'),
+      const cityFeature = data.features.find(
+        (feature: any) =>
+          feature.place_type.includes('place') ||
+          feature.types?.includes('locality'),
       );
-      const cityName = cityFeature?.text || 'Unknown City';
+      if (cityFeature) {
+        const cityName =
+          cityFeature?.text || cityFeature.properties.name || 'Unknown City';
 
-      setSelectedCity({ name: cityName, lng, lat });
+        setSelectedCity({ id: Date.now(), name: cityName, lng, lat });
+      } else {
+        alert('City not found. Please try a different location.');
+      }
     } catch (error) {
       console.error('Error fetching city name from MapTiler API:', error);
     }
@@ -56,13 +83,13 @@ const ReviewPage: React.FC = () => {
     text: string;
     tags: string[];
   }) => {
-    if (selectedCity) {
+    if (selectedCity && userId) {
       const payload = {
-        cityId: selectedCity.id,
-        neighborhoodId: null,
-        cityName: selectedCity.name,
-        lng: selectedCity.lng,
-        lat: selectedCity.lat,
+        userId,
+        cityId: selectedCity?.id || -1,
+        cityName: selectedCity?.name || 'Unknown',
+        lng: selectedCity.lng || 0,
+        lat: selectedCity.lat || 0,
         ...review,
       };
 
@@ -89,12 +116,16 @@ const ReviewPage: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+      {!userId && <p>You must log in to write a review.</p>}
+
       {!selectedCity && (
         <>
           <h1>Select a City to Review</h1>
           <p>Click on the map to select a city.</p>
           <MapSelector
-            onCitySelect={(city) => handleCitySelectFromMap(city.lng, city.lat)}
+            onCitySelect={(city) =>
+              handleCitySelectFromMap(city.lng || 0, city.lat || 0)
+            }
           />
         </>
       )}
@@ -112,7 +143,11 @@ const ReviewPage: React.FC = () => {
               borderRadius: '8px',
             }}
           />
-          <ReviewForm onSubmit={handleReviewSubmit} />
+          <ReviewForm
+            cityId={selectedCity.id || -1}
+            neighborhoodId={null} // Currently set to null
+            onSubmit={handleReviewSubmit}
+          />
         </>
       )}
     </div>

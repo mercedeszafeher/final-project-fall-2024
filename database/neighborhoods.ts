@@ -1,5 +1,4 @@
 import { cache } from 'react';
-import type { Session } from '../migrations/00010-sessions';
 import { sql } from './connect';
 
 export type Neighborhood = {
@@ -20,8 +19,18 @@ export const getNeighborhoodsInsecure = cache(async () => {
 export const createNeighborhoodInsecure = cache(
   async (newNeighborhood: Omit<Neighborhood, 'neighborhood_id'>) => {
     const [neighborhood] = await sql<Neighborhood[]>`
-    INSERT INTO neighborhoods (name, city_id, description, popularity)
-    VALUES (${newNeighborhood.name}, ${newNeighborhood.city_id}, ${newNeighborhood.description}, ${newNeighborhood.popularity})
+    INSERT INTO neighborhoods (
+      name,
+      city_id,
+      description,
+      popularity
+      )
+    VALUES (
+      ${newNeighborhood.name},
+      ${newNeighborhood.city_id},
+      ${newNeighborhood.description},
+      ${newNeighborhood.popularity}
+      )
     RETURNING *
   `;
     return neighborhood;

@@ -14,10 +14,13 @@ export async function up(sql: Sql) {
     CREATE TABLE reviews (
       id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      city_id INTEGER REFERENCES cities(id) ON DELETE CASCADE,
       neighborhood_id INTEGER REFERENCES neighborhoods(id) ON DELETE CASCADE,
       rating rating_level NOT NULL,
       text TEXT,
       tags JSONB,
+      lng DOUBLE PRECISION,
+      lat DOUBLE PRECISION,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;

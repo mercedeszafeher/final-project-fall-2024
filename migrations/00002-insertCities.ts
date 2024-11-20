@@ -8,6 +8,8 @@ export async function up(sql: Sql) {
       description: 'Capital of Austria',
       image_url: '/images/cities/vienna.jpg',
       map_url: null,
+      lat: 48.2082,
+      lng: 16.3738,
     },
     {
       name: 'Oslo',
@@ -16,6 +18,8 @@ export async function up(sql: Sql) {
         'Experience the stunning fjords and vibrant culture of Oslo.',
       image_url: '/images/cities/oslo.jpg',
       map_url: null,
+      lat: 59.9139,
+      lng: 10.7522,
     },
     {
       name: 'Kyoto',
@@ -23,6 +27,8 @@ export async function up(sql: Sql) {
       description: 'Discover the ancient temples and serene gardens of Kyoto.',
       image_url: '/images/cities/kyoto.jpg',
       map_url: null,
+      lat: 35.0116,
+      lng: 135.7681,
     },
     {
       name: 'Cape Town',
@@ -30,6 +36,8 @@ export async function up(sql: Sql) {
       description: 'Enjoy breathtaking views from Table Mountain in Cape Town.',
       image_url: '/images/cities/cape-town.jpg',
       map_url: null,
+      lat: -33.9249,
+      lng: 18.4241,
     },
     {
       name: 'Lisbon',
@@ -37,6 +45,8 @@ export async function up(sql: Sql) {
       description: 'Explore the charming streets and rich history of Lisbon.',
       image_url: '/images/cities/lisbon.jpg',
       map_url: null,
+      lat: 38.7169,
+      lng: -9.139,
     },
     {
       name: 'Vancouver',
@@ -45,6 +55,8 @@ export async function up(sql: Sql) {
         'Experience the perfect blend of urban life and nature in Vancouver.',
       image_url: '/images/cities/vancouver.jpg',
       map_url: null,
+      lat: 49.2827,
+      lng: -123.1207,
     },
     {
       name: 'Seoul',
@@ -52,6 +64,8 @@ export async function up(sql: Sql) {
       description: 'Dive into the dynamic culture and cuisine of Seoul.',
       image_url: '/images/cities/seoul.jpg',
       map_url: null,
+      lat: 37.5665,
+      lng: 126.978,
     },
   ];
 
@@ -62,7 +76,9 @@ export async function up(sql: Sql) {
         country,
         description,
         image_url,
-        map_url
+        map_url,
+        lat,
+        lng
 
       )
       VALUES (
@@ -70,7 +86,9 @@ export async function up(sql: Sql) {
         ${city.country},
         ${city.description},
         ${city.image_url},
-        ${city.map_url}
+        ${city.map_url},
+        ${city.lat},
+        ${city.lng}
       )
     `;
   }

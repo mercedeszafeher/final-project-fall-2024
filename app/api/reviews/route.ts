@@ -4,11 +4,32 @@ import { sql } from '../../../database/connect';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { cityName, lng, lat, rating, text, tags } = body;
+    const { userId, cityId, neighborhoodId, lng, lat, rating, text, tags } =
+      body;
 
     await sql`
-      INSERT INTO reviews (city_name, lng, lat, rating, text, tags, created_at)
-      VALUES (${cityName}, ${lng}, ${lat}, ${rating}, ${text}, ${JSON.stringify(tags)}, NOW())
+      INSERT INTO reviews (
+        user_id,
+        city_id,
+        neighborhood_id,
+        lng,
+        lat,
+        rating,
+        text,
+        tags,
+        created_at
+        )
+      VALUES (
+        ${userId},
+        ${cityId},
+        ${neighborhoodId},
+        ${lng},
+        ${lat},
+        ${rating},
+        ${text},
+        ${JSON.stringify(tags)},
+        NOW()
+        )
     `;
 
     return NextResponse.json(

@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import type { Session } from '../migrations/00010-sessions';
+import type { Session } from '../migrations/00009-sessions';
 import { sql } from './connect';
 
 export type Feature = {

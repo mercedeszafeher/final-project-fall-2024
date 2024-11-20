@@ -22,8 +22,22 @@ export const getCitiesInsecure = cache(async () => {
 export const createCityInsecure = cache(
   async (newCity: Omit<City, 'city_id'>) => {
     const [city] = await sql<City[]>`
-      INSERT INTO cities (name, country, description, image_url, map_url, lat, lng)
-      VALUES (${newCity.name}, ${newCity.country}, ${newCity.description}, ${newCity.image_url}, ${newCity.map_url}, ${newCity.lat}, ${newCity.lng})
+      INSERT INTO cities (
+        name,
+        country,
+        description,
+        image_url,
+        map_url,
+        lat,
+        lng)
+      VALUES (
+        ${newCity.name},
+        ${newCity.country},
+        ${newCity.description},
+        ${newCity.image_url},
+        ${newCity.map_url},
+        ${newCity.lat},
+        ${newCity.lng})
       RETURNING *
     `;
     return city;
