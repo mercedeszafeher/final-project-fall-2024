@@ -1,4 +1,3 @@
-import type { Sql } from 'postgres';
 import { cache } from 'react';
 import type { User } from '../migrations/00000-createTableUsers';
 import { sql } from './connect';

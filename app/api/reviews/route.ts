@@ -44,3 +44,33 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const reviews = await sql`
+      SELECT
+        user_id,
+        city_id,
+        neighborhood_id,
+        lng,
+        lat,
+        rating,
+        text,
+        tags,
+        created_at
+      FROM
+        reviews
+      ORDER BY
+        created_at DESC
+      LIMIT 10
+    `;
+
+    return NextResponse.json({ reviews });
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch reviews' },
+      { status: 500 },
+    );
+  }
+}
