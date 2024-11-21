@@ -15,6 +15,7 @@ export type City = {
 export const getCitiesInsecure = cache(async () => {
   const cities = await sql<City[]>`
     SELECT * FROM cities
+    ORDER BY name ASC
   `;
   return cities;
 });

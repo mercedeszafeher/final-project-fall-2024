@@ -6,34 +6,34 @@ import MapSelector from '../forms/MapForm';
 import ReviewForm from '../forms/ReviewForm';
 
 type City = {
-  id?: number;
+  id: number;
   name: string;
   lng: number;
   lat: number;
 };
 
 const ReviewPage: React.FC = () => {
+  const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
   const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchCities = async () => {
       try {
-        const response = await fetch('/api/session');
+        const response = await fetch('/api/cities');
         if (response.ok) {
           const data = await response.json();
-          setUserId(data.userId);
+          setCities(data.cities || []);
         } else {
-          setUserId(null);
+          console.error('Failed to fetch cities:', await response.text());
         }
       } catch (error) {
-        console.error('Error fetching user session:', error);
-        setUserId(null);
+        console.error('Error fetching cities:', error);
       }
     };
 
-    fetchUser();
+    fetchCities();
   }, []);
 
   useEffect(() => {
@@ -53,103 +53,67 @@ const ReviewPage: React.FC = () => {
     }
   }, [selectedCity]);
 
-  const handleCitySelectFromMap = async (lng: number, lat: number) => {
-    try {
-      const response = await fetch(
-        `https://api.maptiler.com/geocoding/${lng},${lat}.json?key=d90g9A5KwVmxFrD7ZGrH`,
-      );
-      const data = await response.json();
-
-      const cityFeature = data.features.find(
-        (feature: any) =>
-          feature.place_type.includes('place') ||
-          feature.types?.includes('locality'),
-      );
-      if (cityFeature) {
-        const cityName =
-          cityFeature?.text || cityFeature.properties.name || 'Unknown City';
-
-        setSelectedCity({ id: Date.now(), name: cityName, lng, lat });
-      } else {
-        alert('City not found. Please try a different location.');
-      }
-    } catch (error) {
-      console.error('Error fetching city name from MapTiler API:', error);
+  const handleCitySelect = (cityId: number) => {
+    const city = cities.find((city) => city.id === cityId);
+    if (city) {
+      setSelectedCity(city);
     }
   };
 
-  const handleReviewSubmit = async (review: {
-    rating: number;
-    text: string;
-    tags: string[];
-  }) => {
-    if (selectedCity && userId) {
-      const payload = {
-        userId,
-        cityId: selectedCity?.id || -1,
-        cityName: selectedCity?.name || 'Unknown',
-        lng: selectedCity.lng || 0,
-        lat: selectedCity.lat || 0,
-        ...review,
-      };
-
-      try {
-        const response = await fetch('/api/reviews', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-          alert('Review submitted successfully!');
-          setSelectedCity(null);
-        } else {
-          console.error('Failed to submit review:', await response.text());
-        }
-      } catch (error) {
-        console.error('Error submitting review:', error);
-      }
-    }
-  };
+  const filteredCities = cities.filter((city) =>
+    city.name.toLowerCase().includes(searchText.toLowerCase()),
+  );
 
   return (
     <div style={{ padding: '20px' }}>
-      {!userId && <p>You must log in to write a review.</p>}
+      <h1>Select a City to Review</h1>
+      <p>Choose a city from the dropdown to center the map.</p>
 
-      {!selectedCity && (
-        <>
-          <h1>Select a City to Review</h1>
-          <p>Click on the map to select a city.</p>
-          <MapSelector
-            onCitySelect={(city) =>
-              handleCitySelectFromMap(city.lng || 0, city.lat || 0)
-            }
-          />
-        </>
-      )}
+      <input
+        type="text"
+        placeholder="Search cities..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '8px',
+          marginBottom: '10px',
+          borderRadius: '4px',
+          border: '1px solid #ddd',
+        }}
+      />
 
-      {selectedCity && (
-        <>
-          <h2>Selected City: {selectedCity.name}</h2>
-          <div
-            id="city-map"
-            style={{
-              width: '100%',
-              height: '400px',
-              marginBottom: '20px',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-            }}
-          />
-          <ReviewForm
-            cityId={selectedCity.id || -1}
-            neighborhoodId={null} // Currently set to null
-            onSubmit={handleReviewSubmit}
-          />
-        </>
-      )}
+      <select
+        onChange={(e) => handleCitySelect(Number(e.target.value))}
+        style={{
+          width: '100%',
+          padding: '8px',
+          marginBottom: '20px',
+          borderRadius: '4px',
+          border: '1px solid #ddd',
+        }}
+        defaultValue=""
+      >
+        <option value="" disabled>
+          -- Select a City --
+        </option>
+        {filteredCities.map((city) => (
+          <option key={city.id} value={city.id}>
+            {city.name}
+          </option>
+        ))}
+      </select>
+
+      <div
+        id="city-map"
+        style={{
+          width: '100%',
+          height: '400px',
+          marginBottom: '20px',
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+        }}
+      />
     </div>
   );
 };
