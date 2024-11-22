@@ -183,20 +183,24 @@ const ReviewPage: React.FC = () => {
       )}
 
       {!user && (
-        <div className={styles.noUserMessage}>
-          <p>You need to be logged in to write a review.</p>
-          <h3>Recent Reviews</h3>
-          <ul className={styles.reviewList}>
-            {reviews.map((review) => (
-              <li key={review.id} className={styles.reviewItem}>
-                <strong>{review.cityName}</strong> - {review.rating} Stars
-                <p>{review.text}</p>
-                <small>
-                  Reviewed on: {new Date(review.createdAt).toLocaleString()}
-                </small>
-              </li>
-            ))}
-          </ul>
+        <div>
+          <p className={styles.noUserMessage}>
+            You need to be logged in to write a review.
+          </p>
+          <div className={styles.recentReviewsContainer}>
+            <h3>Recent Reviews</h3>
+            <ul className={styles.reviewList}>
+              {reviews.map((review) => (
+                <li key={review.id} className={styles.reviewItem}>
+                  <strong>{review.cityName}</strong> - {review.rating} Stars
+                  <p>{review.text}</p>
+                  <small>
+                    Reviewed on: {new Date(review.createdAt).toLocaleString()}
+                  </small>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>

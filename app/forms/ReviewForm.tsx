@@ -52,7 +52,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         />
       </div>
       <div className={styles.formGroup}>
-        <label className={styles.formLabel}>Tags (comma-separated):</label>
+        <label className={styles.formLabel}>Filters (comma-separated):</label>
         <input
           type="text"
           value={tags.join(',')}
