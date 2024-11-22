@@ -103,7 +103,7 @@ const ReviewPage: React.FC = () => {
           'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=' +
           process.env.NEXT_PUBLIC_MAPTILER_API_KEY,
         center: [selectedCity.lng, selectedCity.lat],
-        zoom: 12,
+        zoom: 10,
       });
 
       mapInstanceRef.current = map;
