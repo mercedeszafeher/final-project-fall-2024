@@ -173,7 +173,9 @@ const ReviewPage: React.FC = () => {
 
       {user && selectedCity && selectedCity.id !== -1 && (
         <>
-          <h2 className="subtitle">Selected City: {selectedCity.name}</h2>
+          <h2 className={styles.subtitle}>
+            Selected City: {selectedCity.name}
+          </h2>
           <ReviewForm
             cityId={selectedCity.id}
             neighborhoodId={null}
