@@ -1,35 +1,34 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { getValidSessionToken } from '../../../database/sessions';
+import { getUserBySessionToken } from '../../../database/users';
 
-export async function GET(request: Request) {
-  const cookieHeader = request.headers.get('cookie');
-  if (!cookieHeader) {
+export async function GET() {
+  try {
+    const cookieStore = cookies();
+    const sessionToken = (await cookieStore).get('sessionToken')?.value;
+
+    if (!sessionToken) {
+      return NextResponse.json(
+        { error: 'No session token found' },
+        { status: 401 },
+      );
+    }
+
+    const user = await getUserBySessionToken(sessionToken);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Invalid or expired session' },
+        { status: 401 },
+      );
+    }
+
+    return NextResponse.json({ userId: user.id }, { status: 200 });
+  } catch (error) {
+    console.error('Error in GET /api/session:', error);
     return NextResponse.json(
-      { error: 'No session token found' },
-      { status: 401 },
+      { error: 'Internal Server Error' },
+      { status: 500 },
     );
   }
-
-  const sessionToken = cookieHeader
-    .split('; ')
-    .find((row) => row.startsWith('sessionToken='))
-    ?.split('=')[1];
-
-  if (!sessionToken) {
-    return NextResponse.json(
-      { error: 'No session token found' },
-      { status: 401 },
-    );
-  }
-
-  const session = await getValidSessionToken(sessionToken);
-
-  if (!session) {
-    return NextResponse.json(
-      { error: 'Invalid or expired session' },
-      { status: 401 },
-    );
-  }
-
-  return NextResponse.json({ userId: session.userId }, { status: 200 });
 }

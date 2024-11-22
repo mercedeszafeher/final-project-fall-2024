@@ -9,11 +9,6 @@ export type Session = {
   userId: number;
 };
 
-// Extended session type to include username when joined with users
-export type SessionWithUser = Session & {
-  username: string;
-};
-
 // Fetch a valid session by checking if the session token is still active
 export const getValidSessionToken = cache(
   async (sessionToken: Session['token']) => {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './ReviewForm.module.scss';
 
 type ReviewFormProps = {
   cityId: number;
@@ -28,36 +29,43 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} style={{ maxWidth: '500px' }}>
+    <form onSubmit={(e) => e.preventDefault()} className={styles.reviewForm}>
       <h3>Write a Review</h3>
-      <div>
-        <label>Rating (1-5):</label>
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Rating (1-5):</label>
         <input
           type="number"
           min="1"
           max="5"
           value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
+          className={styles.formInput}
         />
       </div>
-      <div>
-        <label>Review:</label>
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Review:</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Write your review..."
+          className={styles.formTextarea}
         />
       </div>
-      <div>
-        <label>Tags (comma-separated):</label>
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Tags (comma-separated):</label>
         <input
           type="text"
           value={tags.join(',')}
           onChange={(e) => setTags(e.target.value.split(','))}
           placeholder="e.g., safe, green, noisy"
+          className={styles.formInput}
         />
       </div>
-      <button type="button" onClick={handleSubmit}>
+      <button
+        type="button"
+        onClick={handleSubmit}
+        className={styles.submitButton}
+      >
         Submit Review
       </button>
     </form>

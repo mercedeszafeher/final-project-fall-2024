@@ -49,19 +49,20 @@ export async function GET() {
   try {
     const reviews = await sql`
       SELECT
-        user_id,
-        city_id,
-        neighborhood_id,
-        lng,
-        lat,
-        rating,
-        text,
-        tags,
-        created_at
-      FROM
-        reviews
-      ORDER BY
-        created_at DESC
+        reviews.id AS review_id,
+        reviews.user_id,
+        reviews.city_id,
+        cities.name AS city_name,
+        reviews.neighborhood_id,
+        reviews.rating,
+        reviews.text,
+        reviews.tags,
+        reviews.lng,
+        reviews.lat,
+        reviews.created_at
+      FROM reviews
+      INNER JOIN cities ON reviews.city_id = cities.id
+      ORDER BY reviews.created_at DESC
       LIMIT 10
     `;
 

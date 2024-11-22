@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getCitiesInsecure } from '../../../database/cities';
-import { sql } from '../../../database/connect';
 
 export async function GET() {
   try {

@@ -1,9 +1,9 @@
 'use client';
 
 import maplibregl from 'maplibre-gl';
-import React, { useEffect, useState } from 'react';
-import MapSelector from '../forms/MapForm';
+import React, { useEffect, useRef, useState } from 'react';
 import ReviewForm from '../forms/ReviewForm';
+import styles from './Review.module.scss';
 
 type City = {
   id: number;
@@ -30,10 +30,10 @@ const DEFAULT_CITY: City = {
 const ReviewPage: React.FC = () => {
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState<City | null>(DEFAULT_CITY);
-  const [mapInstance, setMapInstance] = useState<maplibregl.Map | null>(null);
-  const [searchText, setSearchText] = useState('');
   const [user, setUser] = useState<{ id: number } | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<maplibregl.Map | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -73,7 +73,6 @@ const ReviewPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch recent reviews
     const fetchReviews = async () => {
       try {
         const response = await fetch('/api/reviews');
@@ -92,19 +91,27 @@ const ReviewPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCity && document.getElementById('city-map')) {
-      if (!mapInstance) {
-        const map = new maplibregl.Map({
-          container: 'city-map',
-          style:
-            'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=d90g9A5KwVmxFrD7ZGrH',
-          center: [selectedCity.lng, selectedCity.lat],
-          zoom: 12,
-        });
-        setMapInstance(map);
-      } else {
-        mapInstance.setCenter([selectedCity.lng, selectedCity.lat]);
+    if (mapContainerRef.current && selectedCity) {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
       }
+
+      const map = new maplibregl.Map({
+        container: mapContainerRef.current,
+        style:
+          'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=' +
+          process.env.NEXT_PUBLIC_MAPTILER_API_KEY,
+        center: [selectedCity.lng, selectedCity.lat],
+        zoom: 12,
+      });
+
+      mapInstanceRef.current = map;
+
+      return () => {
+        map.remove();
+        mapInstanceRef.current = null;
+      };
     }
   }, [selectedCity]);
 
@@ -122,6 +129,7 @@ const ReviewPage: React.FC = () => {
   }) => {
     if (selectedCity && selectedCity.id !== -1) {
       const payload = {
+        userId: user?.id,
         cityId: selectedCity.id,
         cityName: selectedCity.name,
         lng: selectedCity.lng,
@@ -129,84 +137,43 @@ const ReviewPage: React.FC = () => {
         ...review,
       };
 
-      try {
-        const response = await fetch('/api/reviews', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-        if (response.ok) {
-          alert('Review submitted successfully!');
-          window.location.reload();
-        } else {
-          console.error('Failed to submit review:', await response.text());
-        }
-      } catch (error) {
-        console.error('Error submitting review:', error);
+      if (response.ok) {
+        alert('Review submitted successfully!');
+        setSelectedCity(DEFAULT_CITY);
       }
     }
   };
 
-  const filteredCities = cities.filter((city) =>
-    city.name.toLowerCase().includes(searchText.toLowerCase()),
-  );
-
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Select a City to Review</h1>
-
-      <input
-        type="text"
-        placeholder="Search cities..."
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        style={{
-          width: '100%',
-          padding: '8px',
-          marginBottom: '10px',
-          borderRadius: '4px',
-          border: '1px solid #ddd',
-        }}
-      />
+    <div className={styles.reviewPageContainer}>
+      <h1 className={styles.title}>Select a City to Review</h1>
 
       <select
         onChange={(e) => handleCitySelect(Number(e.target.value))}
-        style={{
-          width: '100%',
-          padding: '8px',
-          marginBottom: '20px',
-          borderRadius: '4px',
-          border: '1px solid #ddd',
-        }}
+        className={styles.cityDropdown}
         defaultValue={DEFAULT_CITY.id}
       >
         <option value={DEFAULT_CITY.id} disabled>
           -- Select a City --
         </option>
-        {filteredCities.map((city) => (
+        {cities.map((city) => (
           <option key={city.id} value={city.id}>
             {city.name}
           </option>
         ))}
       </select>
 
-      <div
-        id="city-map"
-        style={{
-          width: '100%',
-          height: '400px',
-          marginBottom: '20px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-        }}
-      />
+      <div ref={mapContainerRef} className={styles.mapContainer} />
 
       {user && selectedCity && selectedCity.id !== -1 && (
         <>
-          <h2>Selected City: {selectedCity.name}</h2>
+          <h2 className="subtitle">Selected City: {selectedCity.name}</h2>
           <ReviewForm
             cityId={selectedCity.id}
             neighborhoodId={null}
@@ -216,14 +183,12 @@ const ReviewPage: React.FC = () => {
       )}
 
       {!user && (
-        <div>
-          <p style={{ color: 'red', marginTop: '20px' }}>
-            You need to be logged in to write a review.
-          </p>
+        <div className={styles.noUserMessage}>
+          <p>You need to be logged in to write a review.</p>
           <h3>Recent Reviews</h3>
-          <ul>
+          <ul className={styles.reviewList}>
             {reviews.map((review) => (
-              <li key={review.id}>
+              <li key={review.id} className={styles.reviewItem}>
                 <strong>{review.cityName}</strong> - {review.rating} Stars
                 <p>{review.text}</p>
                 <small>

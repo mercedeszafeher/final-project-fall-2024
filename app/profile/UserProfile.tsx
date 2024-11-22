@@ -109,7 +109,6 @@ export default function UserProfile({
       {user && (
         <div className={styles.profileCard}>
           <div className={styles.profileImageContainer}>
-            {/* Display Default Profile Picture */}
             <img
               src="/images/default-profile.png"
               alt="Default Profile"
@@ -171,7 +170,6 @@ export default function UserProfile({
                   ></textarea>
                 </div>
 
-                {/* Password Change Fields */}
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>Current Password:</label>
                   <input
