@@ -51,14 +51,15 @@ $background-color: #3c4855;
 
 .noUserMessage {
   color: red;
-  margin-top: 20px;
   text-align: center;
+  margin: 0 auto 20px;
 }
 
 .recentReviewsContainer {
   background-color: #fff;
   border: 2px solid #f9f9f9;
   border-radius: 12px;
+  margin: 20px auto 20px;
   padding: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   width: 100%;
@@ -66,13 +67,89 @@ $background-color: #3c4855;
   transition:
     transform 0.3s,
     box-shadow 0.3s;
+}
 
-  .reviewList {
-    list-style: none;
-    padding: 0;
-  }
+.reviewCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
 
-  .reviewItem {
-    margin-bottom: 10px;
+.reviewCard {
+  background-color: #fff;
+  border: 2px solid #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: 300px;
+  flex: 1;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
+}
+
+.reviewCity {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $primary-color;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.star {
+  color: #ccc;
+}
+
+.starFilled {
+  color: $accent-color;
+}
+
+.reviewText {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  transition: all 0.3s;
+}
+
+.expanded {
+  -webkit-line-clamp: unset;
+  height: auto;
+}
+
+.seeMoreButton {
+  background: none;
+  border: none;
+  color: #ff8981;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 8px;
+  align-self: flex-start;
+
+  &:hover {
+    color: #fb4b48;
+  }
+}
+
+.reviewDate {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: auto;
 }

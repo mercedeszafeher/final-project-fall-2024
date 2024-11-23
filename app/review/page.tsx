@@ -2,6 +2,7 @@
 
 import maplibregl from 'maplibre-gl';
 import React, { useEffect, useRef, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import ReviewForm from '../forms/ReviewForm';
 import styles from './Review.module.scss';
 
@@ -32,6 +33,7 @@ const ReviewPage: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<City | null>(DEFAULT_CITY);
   const [user, setUser] = useState<{ id: number } | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [expandedReview, setExpandedReview] = useState<number | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<maplibregl.Map | null>(null);
 
@@ -185,23 +187,50 @@ const ReviewPage: React.FC = () => {
       )}
 
       {!user && (
-        <div>
+        <div className={styles.recentReviewsContainer}>
           <p className={styles.noUserMessage}>
             You need to be logged in to write a review.
           </p>
-          <div className={styles.recentReviewsContainer}>
-            <h3>Recent Reviews</h3>
-            <ul className={styles.reviewList}>
-              {reviews.map((review) => (
-                <li key={review.id} className={styles.reviewItem}>
-                  <strong>{review.cityName}</strong> - {review.rating} Stars
-                  <p>{review.text}</p>
-                  <small>
-                    Reviewed on: {new Date(review.createdAt).toLocaleString()}
-                  </small>
-                </li>
-              ))}
-            </ul>
+          <h3>Recent Reviews</h3>
+          <div className={styles.reviewCardsContainer}>
+            {reviews.map((review) => (
+              <div key={review.id} className={styles.reviewCard}>
+                <h4 className={styles.reviewCity}>{review.cityName}</h4>
+                <div className={styles.rating}>
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className={
+                        i < review.rating ? styles.starFilled : styles.star
+                      }
+                    />
+                  ))}
+                </div>
+                <p
+                  className={`${styles.reviewText} ${
+                    expandedReview === review.id ? styles.expanded : ''
+                  }`}
+                >
+                  {review.text}
+                </p>
+                {review.text.length > 100 && (
+                  <button
+                    className={styles.seeMoreButton}
+                    onClick={() =>
+                      setExpandedReview(
+                        expandedReview === review.id ? null : review.id,
+                      )
+                    }
+                  >
+                    {expandedReview === review.id ? 'See Less' : 'See More'}
+                  </button>
+                )}
+                <br />
+                <small className={styles.reviewDate}>
+                  Reviewed on: {new Date(review.createdAt).toLocaleString()}
+                </small>
+              </div>
+            ))}
           </div>
         </div>
       )}
