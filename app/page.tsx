@@ -1,6 +1,11 @@
 'use client';
+import IntroComponent from './components/IntroComponent';
 import styles from './page.module.css';
 
 export default function Home() {
-  return <div className={styles.homePage}></div>;
+  return (
+    <div className={styles.homePage}>
+      <IntroComponent />
+    </div>
+  );
 }
