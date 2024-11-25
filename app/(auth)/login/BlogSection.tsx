@@ -50,7 +50,6 @@ export default function BlogSection() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-advance blog post every 7 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
@@ -66,11 +65,10 @@ export default function BlogSection() {
     setCurrentIndex(index);
   };
 
-  // Ensure currentIndex is within bounds and blogPost exists
   const currentPost = blogPosts[currentIndex];
 
   if (!currentPost) {
-    return null; // Or render a fallback UI
+    return null;
   }
 
   return (

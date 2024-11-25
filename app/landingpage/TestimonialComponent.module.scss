@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+$primary-color: #ffffff;
+$secondary-color: #ecf0f1;
+$accent-color: #ff8981;
+$background-color: #2d2f31;
+$highlight-gradient: radial-gradient(
+  circle,
+  rgba(255, 137, 129, 0.15) 0%,
+  rgba(255, 255, 255, 0) 80%
+);
+
+.testimonialSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 50px 20px;
+  background-color: $background-color;
+  color: $secondary-color;
+  text-align: center;
+
+  .title {
+    font-size: 2.5rem;
+    color: $secondary-color;
+    margin-bottom: 40px;
+  }
+
+  .testimonialContainer {
+    position: relative;
+    width: 600px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .testimonialCard {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    width: 550px;
+    padding: 30px;
+    color: $primary-color;
+    transform: translateY(0) scale(0.95);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    opacity: 0;
+    z-index: 0;
+
+    &.active {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      z-index: 2;
+    }
+
+    &.behind {
+      transform: translateY(20px) scale(0.9);
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    &.farBehind {
+      transform: translateY(40px) scale(0.85);
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .cardHeader {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      z-index: 1;
+      position: relative;
+
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 3px solid $accent-color;
+      }
+
+      .name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: $secondary-color;
+      }
+
+      .title {
+        font-size: 1rem;
+        color: #d1d1d1;
+        margin-top: 5px;
+      }
+    }
+
+    .feedback {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      color: $secondary-color;
+      z-index: 1;
+      position: relative;
+    }
+
+    .date {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: right;
+      z-index: 1;
+      position: relative;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+
+    .dot {
+      height: 12px;
+      width: 12px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+      margin: 20px 5px 20px;
+      transition: background-color 0.3s;
+
+      &.active {
+        background-color: $accent-color;
+      }
+    }
+  }
+}
