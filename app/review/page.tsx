@@ -1,7 +1,6 @@
 'use client';
 
 import maplibregl from 'maplibre-gl';
-import type { Metadata } from 'next';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import ReviewForm from '../forms/ReviewForm';
@@ -192,7 +191,7 @@ const ReviewPage: React.FC = () => {
           <p className={styles.noUserMessage}>
             You need to be logged in to write a review.
           </p>
-          <h3>Recent Reviews</h3>
+          <h3 className={styles.header}>Recent Reviews</h3>
           <div className={styles.reviewCardsContainer}>
             {reviews.map((review) => (
               <div
