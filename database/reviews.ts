@@ -68,3 +68,31 @@ export const createReviewInsecure = cache(
     return review;
   },
 );
+
+export const getReviewsByUserId = cache(async (userId: number) => {
+  const reviews = await sql<Review[]>`
+    SELECT
+      reviews.id,
+      reviews.user_id,
+      reviews.city_id,
+      reviews.neighborhood_id,
+      reviews.rating,
+      reviews.text,
+      reviews.tags,
+      reviews.lng,
+      reviews.lat,
+      reviews.created_at,
+      cities.name AS city_name,
+      cities.country AS city_country
+    FROM
+      reviews
+    INNER JOIN
+      cities ON reviews.city_id = cities.id
+    WHERE
+      reviews.user_id = ${userId}
+    ORDER BY
+      reviews.created_at DESC
+  `;
+
+  return reviews;
+});

@@ -4,16 +4,16 @@ import {
   getUserBySessionToken,
   getUserInsecure,
 } from '../../../database/users';
+import UserReviewsForm from '../../forms/UserReviewsForm';
 import UserProfile from '../UserProfile';
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ username: string }>;
+  params: { username: string };
 }): Promise<Metadata> {
   try {
-    const { username } = await params;
-
+    const { username } = params;
     const singleUser = await getUserInsecure(username);
 
     if (!singleUser) {
@@ -69,7 +69,12 @@ export default async function ProfilePage({
 
     const isOwnProfile = loggedInUser.username === username;
 
-    return <UserProfile user={singleUser} isOwnProfile={isOwnProfile} />;
+    return (
+      <div>
+        <UserProfile user={singleUser} isOwnProfile={isOwnProfile} />;
+        <UserReviewsForm userId={singleUser.id} />;
+      </div>
+    );
   } catch (error) {
     console.error('Error in ProfilePage:', error);
     return <div>An error occurred while loading the profile.</div>;

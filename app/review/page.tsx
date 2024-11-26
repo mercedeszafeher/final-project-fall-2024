@@ -194,12 +194,15 @@ const ReviewPage: React.FC = () => {
           <h3>Recent Reviews</h3>
           <div className={styles.reviewCardsContainer}>
             {reviews.map((review) => (
-              <div key={review.id} className={styles.reviewCard}>
+              <div
+                key={`${review.id}-${review.cityName}`}
+                className={styles.reviewCard}
+              >
                 <h4 className={styles.reviewCity}>{review.cityName}</h4>
                 <div className={styles.rating}>
                   {[...Array(5)].map((_, i) => (
                     <FaStar
-                      key={i}
+                      key={`star-${review.id}-${i}`}
                       className={
                         i < review.rating ? styles.starFilled : styles.star
                       }

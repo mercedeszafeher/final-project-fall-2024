@@ -9,7 +9,6 @@ export type Session = {
   userId: number;
 };
 
-// Fetch a valid session by checking if the session token is still active
 export const getValidSessionToken = cache(
   async (sessionToken: Session['token']) => {
     const [session] = await sql<Session[]>`
@@ -29,7 +28,6 @@ export const getValidSessionToken = cache(
   },
 );
 
-// Create a new session for the user and return the session token
 export const createSession = cache(
   async (userId: User['id'], token: Session['token']) => {
     const [session] = await sql<Session[]>`
@@ -50,7 +48,6 @@ export const createSession = cache(
       expiry_timestamp
   `;
 
-    // Clean up expired sessions
     await sql`
     DELETE FROM sessions
     WHERE expiry_timestamp < now()
@@ -60,7 +57,6 @@ export const createSession = cache(
   },
 );
 
-// Delete a session by its token, effectively logging the user out
 export const deleteSession = cache(async (sessionToken: Session['token']) => {
   const [deletedSession] = await sql<Session[]>`
     DELETE FROM sessions
@@ -71,7 +67,6 @@ export const deleteSession = cache(async (sessionToken: Session['token']) => {
   return deletedSession;
 });
 
-// Fetch all active sessions for a user (optional utility)
 export const getSessionsForUser = cache(async (userId: number) => {
   const sessions = await sql<Session[]>`
     SELECT

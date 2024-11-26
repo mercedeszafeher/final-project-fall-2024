@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+$primary-color: #343a40;
+$secondary-color: #ecf0f1;
+$accent-color: #ff8981;
+$background-color: #f9f9f9;
+
+.userReviewsContainer {
+  padding: 40px 20px;
+  background-color: $background-color;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 768px;
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: $primary-color;
+    text-align: center;
+  }
+
+  .noReviews {
+    color: #777;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .reviewsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .reviewCard {
+    background-color: #fff;
+    border: 2px solid #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .cityName {
+      font-size: 1.5rem;
+      color: $primary-color;
+      margin-bottom: 10px;
+    }
+
+    .rating {
+      margin-bottom: 10px;
+
+      .star {
+        color: #ccc;
+      }
+
+      .starFilled {
+        color: $accent-color;
+      }
+    }
+
+    .reviewText {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .reviewDate {
+      font-size: 0.85rem;
+      color: #777;
+    }
+  }
+}
+
+.errorMessage {
+  color: red;
+  text-align: center;
+  margin: 0 auto 20px;
+}
