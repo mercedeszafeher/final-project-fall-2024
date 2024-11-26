@@ -164,7 +164,7 @@ $background-color: #3c4855;
     gap: 15px;
 
     .cityBox {
-      max-width: 450px;
+      max-width: 80%;
       padding: 25px;
     }
 
@@ -185,6 +185,20 @@ $background-color: #3c4855;
     .cityBox {
       max-width: 100%;
       padding: 20px;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .welcomeBackSection {
+    padding: 20px;
+
+    .cityBox {
+      padding: 15px;
     }
 
     .header {
