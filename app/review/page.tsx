@@ -1,6 +1,7 @@
 'use client';
 
 import maplibregl from 'maplibre-gl';
+import type { Metadata } from 'next';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import ReviewForm from '../forms/ReviewForm';
