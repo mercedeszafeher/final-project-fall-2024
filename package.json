@@ -26,6 +26,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@types/bcrypt": "^5.0.2",
     "@types/dotenv-safe": "^8.1.6",
     "@types/mapbox-gl": "^3.4.1",
