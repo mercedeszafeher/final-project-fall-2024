@@ -1,9 +1,8 @@
 import 'server-only';
-import { config } from 'dotenv-safe';
 import postgres, { type Sql } from 'postgres';
-import { postgresConfig } from '../util/config.js';
+import { postgresConfig, setEnvironmentVariables } from '../util/config.js';
 
-config();
+setEnvironmentVariables();
 
 declare namespace globalThis {
   let postgresSqlClient: Sql;
