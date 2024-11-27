@@ -1,49 +1,35 @@
-# syntax = docker/dockerfile:1
+FROM node:lts-alpine AS builder
+# Install necessary tools
+RUN apk add --no-cache libc6-compat yq --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+WORKDIR /app
+# Copy the content of the project to the machine
+COPY . .
+RUN yq --inplace --output-format=json '(.devDependencies = (.devDependencies | to_entries | map(select(.key | test("^(@jest/globals|@playwright/test|@ts-safeql/eslint-plugin|jest|jest-environment-jsdom|libpg-query|prettier|prettier-plugin-embed|prettier-plugin-sql|stylelint|stylelint-config-upleveled)$") | not)) | from_entries))' package.json
+RUN pnpm install
+RUN pnpm build
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.16.0
-FROM node:${NODE_VERSION}-slim as base
-
-LABEL fly_launch_runtime="Next.js"
-
-# Next.js app lives here
+# Multi-stage builds: runner stage
+FROM node:lts-alpine AS runner
+ENV NODE_ENV production
+# Install necessary tools
+RUN apk add bash postgresql
+RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+# Copy built app
+COPY --from=builder /app/.next ./.next
 
-# Install pnpm
-ARG PNPM_VERSION=9.13.2
-RUN npm install -g pnpm@$PNPM_VERSION
+# Copy only necessary files to run the app (minimize production app size, improve performance)
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/migrations ./migrations
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/next.config.ts ./
 
+# Copy start script and make it executable
+COPY --from=builder /app/scripts ./scripts
+RUN chmod +x /app/scripts/fly-io-start.sh
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod=false
-
-# Copy application code
-COPY . .
-
-# Build application
-RUN pnpm run build
-
-# Remove development dependencies
-RUN pnpm prune --prod
-
-
-# Final stage for app image
-FROM base
-
-# Copy built application
-COPY --from=build /app /app
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD [ "pnpm", "run", "start" ]
+CMD ["./scripts/fly-io-start.sh"]
