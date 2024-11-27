@@ -93,28 +93,42 @@ const ReviewPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (mapContainerRef.current && selectedCity) {
+    const fetchMapKeyAndInitializeMap = async () => {
+      if (mapContainerRef.current && selectedCity) {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.remove();
+          mapInstanceRef.current = null;
+        }
+
+        try {
+          const response = await fetch('/api/map-key');
+          if (!response.ok) {
+            throw new Error('Failed to fetch API key');
+          }
+          const { apiKey } = await response.json();
+
+          const map = new maplibregl.Map({
+            container: mapContainerRef.current,
+            style: `https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=${apiKey}`,
+            center: [selectedCity.lng, selectedCity.lat],
+            zoom: 10,
+          });
+
+          mapInstanceRef.current = map;
+        } catch (error) {
+          console.error('Error initializing the map:', error);
+        }
+      }
+    };
+
+    fetchMapKeyAndInitializeMap();
+
+    return () => {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
-
-      const map = new maplibregl.Map({
-        container: mapContainerRef.current,
-        style:
-          'https://api.maptiler.com/maps/ffa469f8-2d88-47cb-b430-2ec2d399397f/style.json?key=' +
-          process.env.NEXT_PUBLIC_MAPTILER_API_KEY,
-        center: [selectedCity.lng, selectedCity.lat],
-        zoom: 10,
-      });
-
-      mapInstanceRef.current = map;
-
-      return () => {
-        map.remove();
-        mapInstanceRef.current = null;
-      };
-    }
+    };
   }, [selectedCity]);
 
   const handleCitySelect = (cityId: number) => {
