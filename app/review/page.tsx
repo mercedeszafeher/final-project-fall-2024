@@ -166,6 +166,13 @@ const ReviewPage: React.FC = () => {
     }
   };
 
+  const sortedRecentReviews = reviews
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
+    .slice(0, 4);
+
   return (
     <div className={styles.reviewPageContainer}>
       <h1 className={styles.title}>Select a City to Review</h1>
@@ -207,7 +214,7 @@ const ReviewPage: React.FC = () => {
           </p>
           <h3 className={styles.header}>Recent Reviews</h3>
           <div className={styles.reviewCardsContainer}>
-            {reviews.map((review) => (
+            {sortedRecentReviews.map((review) => (
               <div
                 key={`${review.id}-${review.cityName}`}
                 className={styles.reviewCard}
