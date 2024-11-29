@@ -21,24 +21,27 @@ RaterHood is a platform where users can share reviews about cities and neighborh
 
 RaterHood is built using modern technologies to deliver a smooth and engaging user experience:
 
-** Frontend **
+_Frontend_
 - React with TypeScript: To build a scalable and type-safe user interface.
-Next.js: For server-side rendering and seamless routing.
-SCSS/SASS: For styling the app, allowing for modular and maintainable CSS.
-Backend
-Node.js: The runtime for server-side logic.
-Next.js API Routes: For handling server-side requests and logic.
-Database
-PostgreSQL: For robust and structured data storage.
-Geospatial and Maps
-MapLibre: Open-source map rendering library.
-MapTiler: For map tiles and styles, providing a visually appealing and interactive map experience.
-Authentication
-Session Cookies: Secure session management for logged-in users.
-Installation
+- Next.js: For server-side rendering and seamless routing.
+- SCSS/SASS: For styling the app, allowing for modular and maintainable CSS.
+  
+_Backend_
+- Node.js: The runtime for server-side logic.
+- Next.js API Routes: For handling server-side requests and logic.
+  
+_Database_
+- PostgreSQL: For robust and structured data storage.
+  
+_Geospatial and Maps_
+- MapLibre: Open-source map rendering library.
+- MapTiler: For map tiles and styles, providing a visually appealing and interactive map experience.
+  
+_Authentication_
+- Session Cookies: Secure session management for logged-in users
 
 
-#### Usage
+### Usage
 #### For Visitors
 - Browse the landing page.
 - View the most recent reviews without logging in.
@@ -46,32 +49,34 @@ Installation
 - Sign up or log in.
 - Select a city from the dropdown or the interactive map.
 - Submit reviews, including a rating, comments, and tags.
+- User Profile: personal dashboards to view user-submitted reviews.
   
 ### Challenges and Learnings
 
-Dynamic Mapping: Learning and integrating MapLibre and MapTiler for an interactive map experience.
-Authentication & Authorization: Implementing secure session-based authentication using cookies.
-Styling: Mastering SCSS/SASS to create responsive, maintainable, and clean designs.
-Asynchronous Programming: Handling multiple API requests and optimizing data fetching with React hooks.
-Future Features
+- Dynamic Mapping: Learning and integrating MapLibre and MapTiler for an interactive map experience.
+- Authentication & Authorization: Implementing secure session-based authentication using cookies.
+- Styling: Mastering SCSS/SASS to create responsive, maintainable, and clean designs.
+- Asynchronous Programming: Handling multiple API requests and optimizing data fetching with React hooks.
+  
+### Future Features
 
-Neighborhood Reviews: Extend reviews to specific neighborhoods within cities.
-User Profile: Add personal dashboards to view user-submitted reviews.
-Search Functionality: Enable search by city or keyword.
-Contributing
+- Neighborhood Reviews: Extend reviews to specific neighborhoods within cities.
+- Search Functionality: Enable search by city or keyword.
 
-### Acknowledgments
+## Acknowledgments
 MapLibre & MapTiler: For the open-source tools that powered the interactive map.
 
 ### Contact
 
-Developed by Mercedesz (Merci). Feel free to connect with me:
+Developed by Mercedesz A. Feher. Feel free to connect with me:
 
-LinkedIn: www.linkedin.com/in/mercedesz-a-feher
-GitHub: https://github.com/mercedeszafeher
+👤[LinkedIn](www.linkedin.com/in/mercedesz-a-feher)
+
+👩🏼‍💻[GitHub](https://github.com/mercedeszafeher)
 
 
-License
+#### License
+
 This project is licensed under the MIT License.
 
 
