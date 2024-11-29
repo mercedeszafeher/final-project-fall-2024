@@ -15,7 +15,14 @@ RaterHood is a platform where users can share reviews about cities and neighborh
 ### Screenshots
 
 
-(Add a link to a screenshot of your app here.)
+<img width="1049" alt="Screenshot 2024-11-29 at 14 34 12" src="https://github.com/user-attachments/assets/a15de004-1de4-4d14-8444-93f3f095b769">
+
+
+<img width="1277" alt="Screenshot 2024-11-29 at 14 34 45" src="https://github.com/user-attachments/assets/e5e074ed-f53d-453d-adae-a86c45d92b3a">
+
+
+<img width="1275" alt="Screenshot 2024-11-29 at 14 35 38" src="https://github.com/user-attachments/assets/e88a029c-211c-432e-bb47-8a307785ef79">
+
 
 ### Tech Stack
 
