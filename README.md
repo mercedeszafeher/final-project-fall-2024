@@ -77,6 +77,6 @@ Developed by Mercedesz A. Feher. Feel free to connect with me:
 
 #### License
 
-This project is licensed under the MIT License.
+Copyright © 2024 Mercedesz A. Feher. All rights reserved.
 
 
