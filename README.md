@@ -37,38 +37,17 @@ Authentication
 Session Cookies: Secure session management for logged-in users.
 Installation
 
-Follow these steps to run RaterHood on your local machine:
 
-Prerequisites
-Node.js v16+
-PostgreSQL
-Steps
-Clone the repository:
-git clone https://github.com/your-username/raterhood.git
-cd raterhood
-Install dependencies:
-npm install
-Set up environment variables:
-Create a .env file and add the following:
-DATABASE_URL=your_database_url
-MAPTILER_API_KEY=your_maptile_api_key
-SESSION_SECRET=your_session_secret
-Set up the database:
-Create a PostgreSQL database.
-Run migrations or use an ORM (like Prisma) to initialize your schema.
-Run the development server:
-npm run dev
-The app will be available at http://localhost:3000.
-Usage
-
-For Visitors
-Browse the landing page.
-View the most recent reviews without logging in.
-For Registered Users
-Sign up or log in.
-Select a city from the dropdown or the interactive map.
-Submit reviews, including a rating, comments, and tags.
-Challenges and Learnings
+#### Usage
+#### For Visitors
+- Browse the landing page.
+- View the most recent reviews without logging in.
+#### For Registered Users
+- Sign up or log in.
+- Select a city from the dropdown or the interactive map.
+- Submit reviews, including a rating, comments, and tags.
+  
+### Challenges and Learnings
 
 Dynamic Mapping: Learning and integrating MapLibre and MapTiler for an interactive map experience.
 Authentication & Authorization: Implementing secure session-based authentication using cookies.
@@ -81,21 +60,17 @@ User Profile: Add personal dashboards to view user-submitted reviews.
 Search Functionality: Enable search by city or keyword.
 Contributing
 
-Contributions are welcome! To contribute:
-
-Fork the repository.
-Create a new branch.
-Make your changes and submit a pull request.
-Acknowledgments
-
-OpenAI: For guidance and problem-solving during development.
+### Acknowledgments
 MapLibre & MapTiler: For the open-source tools that powered the interactive map.
-Contact
+
+### Contact
 
 Developed by Mercedesz (Merci). Feel free to connect with me:
 
-LinkedIn
-GitHub
+LinkedIn: www.linkedin.com/in/mercedesz-a-feher
+GitHub: https://github.com/mercedeszafeher
+
+
 License
 This project is licensed under the MIT License.
 
