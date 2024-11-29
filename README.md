@@ -14,14 +14,24 @@ RaterHood is a platform where users can share reviews about cities and neighborh
   
 ### Screenshots
 
+_Fronend Design_
 
 <img width="1049" alt="Screenshot 2024-11-29 at 14 34 12" src="https://github.com/user-attachments/assets/a15de004-1de4-4d14-8444-93f3f095b769">
 
 
-<img width="1277" alt="Screenshot 2024-11-29 at 14 34 45" src="https://github.com/user-attachments/assets/e5e074ed-f53d-453d-adae-a86c45d92b3a">
+<img width="1276" alt="Screenshot 2024-11-29 at 15 59 37" src="https://github.com/user-attachments/assets/ee79f2ee-e7c6-4b55-abb7-1a6c4e3e2a72">
+
 
 
 <img width="1275" alt="Screenshot 2024-11-29 at 14 35 38" src="https://github.com/user-attachments/assets/e88a029c-211c-432e-bb47-8a307785ef79">
+
+_Database setup_
+
+![Screenshot 2024-10-21 at 18 18 15](https://github.com/user-attachments/assets/706cdc1f-ec80-419c-a42c-f6e76798073f)
+
+
+![Screenshot 2024-10-28 at 18 32 37](https://github.com/user-attachments/assets/ce5b6ec7-8f7b-476b-aafc-289c63ffd5f6)
+
 
 
 ### Tech Stack
