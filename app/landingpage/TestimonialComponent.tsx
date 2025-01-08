@@ -20,7 +20,7 @@ const testimonials: Testimonial[] = [
     feedback:
       "RaterHood has completely transformed the way I research neighborhoods. It's intuitive, reliable, and packed with insights. Whether it's safety, community, or amenities, I can find everything I need at my fingertips!",
     avatar: '/images/testimonials/ava.jpg',
-    date: '2023.November 15.',
+    date: '2023. November 15.',
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
     feedback:
       'RaterHood is a must-have tool for my profession. The reviews are honest, and the ratings help my clients make informed decisions when buying homes. I highly recommend it to anyone in real estate!',
     avatar: '/images/testimonials/liam.jpg',
-    date: '2024.October 05.',
+    date: '2024. October 5.',
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     feedback:
       'As someone who travels often, RaterHood has been my go-to app for finding safe and vibrant neighborhoods. I love how user-friendly it is and how it highlights local gems in each city!',
     avatar: '/images/testimonials/sophia.jpg',
-    date: '2019.September 20.',
+    date: '2019. September 20.',
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const testimonials: Testimonial[] = [
     feedback:
       'Moving to a new city with my family was daunting until I found RaterHood. Its reviews and ratings helped me choose a neighborhood where my kids can grow up safely and happily. A lifesaver!',
     avatar: '/images/testimonials/oliver.jpg',
-    date: '2023.August 28.',
+    date: '2023. August 28.',
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ const testimonials: Testimonial[] = [
     feedback:
       'RaterHood is a game-changer for students! It made finding an affordable and student-friendly area so much easier. I love the detailed reviews from real people like me!',
     avatar: '/images/testimonials/isabella.jpg',
-    date: '2021.Juni 09.',
+    date: '2021. Juni 09.',
   },
 ];
 

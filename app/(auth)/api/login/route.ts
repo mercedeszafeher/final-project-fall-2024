@@ -70,10 +70,10 @@ export async function POST(
     );
   }
 
-  // Generate a secure session token
+  // Generate a secure session token.
   const token = crypto.randomBytes(100).toString('base64');
 
-  // Create a session in the database with the token
+  // Create a session in the database with the token.
   const session = await createSession(userWithPasswordHash.id, token);
 
   if (!session) {
