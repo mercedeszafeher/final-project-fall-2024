@@ -89,7 +89,7 @@ cd final-project-fall-2024
 2) Install dependencies:
 ```
 npm install
-``
+```
 3) Set up environment variables:
 Create a .env file and add the following:
 ```
