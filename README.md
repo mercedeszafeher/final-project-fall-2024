@@ -27,7 +27,7 @@ _Frontend Design_
 
 _Database setup_
 
-![Screenshot 2024-10-21 at 18 18 15](https://github.com/user-attachments/assets/706cdc1f-ec80-419c-a42c-f6e76798073f)
+<img width="637" alt="Screenshot 2025-01-08 at 18 59 03" src="https://github.com/user-attachments/assets/15891d16-16b4-4a83-aede-c7ecc0058b5b" />
 
 
 ![Screenshot 2024-10-28 at 18 32 37](https://github.com/user-attachments/assets/ce5b6ec7-8f7b-476b-aafc-289c63ffd5f6)
