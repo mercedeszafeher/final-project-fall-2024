@@ -32,6 +32,9 @@ _Database setup_
 
 ![Screenshot 2024-10-28 at 18 32 37](https://github.com/user-attachments/assets/ce5b6ec7-8f7b-476b-aafc-289c63ffd5f6)
 
+_Database tables & relations_
+
+![Screenshot 2025-01-08 at 18 02 08](https://github.com/user-attachments/assets/f263f91d-2152-488b-a7a8-39ea63b0548e)
 
 
 ### Tech Stack
@@ -67,6 +70,42 @@ _Authentication_
 - Select a city from the dropdown or the interactive map.
 - Submit reviews, including a rating, comments, and tags.
 - User Profile: personal dashboards to view user-submitted reviews.
+
+
+### Installation
+
+Follow these steps to run RaterHood on your local machine:
+
+#### Prerequisites
+  - Node.js v16+
+  - PostgreSQL
+    
+#### Steps
+1) Clone the repository:
+```
+git clone git@github.com:mercedeszafeher/final-project-fall-2024.git
+cd final-project-fall-2024
+```
+2) Install dependencies:
+```
+npm install
+``
+3) Set up environment variables:
+Create a .env file and add the following:
+```
+DATABASE_URL=your_database_url
+MAPTILER_API_KEY=your_maptile_api_key
+SESSION_SECRET=your_session_secret
+```
+4) Set up the database:
+  - Create a PostgreSQL database.
+  - Run migrations or use an ORM (like Prisma) to initialize your schema.
+5) Run the development server:
+```
+npm run dev
+```
+
+The app will be available at http://localhost:3000.
   
 ### Challenges and Learnings
 
@@ -78,7 +117,10 @@ _Authentication_
 ### Future Features
 
 - Neighborhood Reviews: Extend reviews to specific neighborhoods within cities.
-- Search Functionality: Enable search by city or keyword.
+- Individual City Pages with Map. A dedicated page for each city, showing detailed neighborhood maps and filtered reviews.
+- Advanced Review Filters. Filter reviews based on multiple attributes (e.g., parking, infrastructure, building condition).
+- Search Functionality: Enable search by city or keyword. And later implement search functionality to find cities/neighborhoods by criteria (e.g., cheapest rent, best public transport).
+-  Build an admin panel for managing reviews, users, and city data.
 
 ## Acknowledgments
 MapLibre & MapTiler: For the open-source tools that powered the interactive map.
