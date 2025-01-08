@@ -9,12 +9,12 @@ RaterHood is a platform where users can share reviews about cities and neighborh
 - User Authentication and Authorization: Sign up and log in securely with session cookies for logged-in users.
 - Interactive Map: Choose cities to review using an embedded map powered by MapLibre and MapTiler.
 - Write Reviews: Authenticated users can write reviews for selected cities, including ratings and additional feedback.
-- Recent Reviews: Non-logged-in users can view the 4 most recent reviews, encouraging engagement.
+- Recent Reviews: Non-logged-in users can view the 3 most recent reviews, encouraging engagement.
 - Responsive Design: Fully optimized for all devices, ensuring a seamless experience on desktops, tablets, and mobiles.
   
 ### Screenshots
 
-_Fronend Design_
+_Frontend Design_
 
 <img width="1049" alt="Screenshot 2024-11-29 at 14 34 12" src="https://github.com/user-attachments/assets/a15de004-1de4-4d14-8444-93f3f095b769">
 
