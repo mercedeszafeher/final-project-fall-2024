@@ -78,8 +78,8 @@ export default function BlogSection() {
           <Image
             src={currentPost.image}
             alt={currentPost.title}
-            width={400}
-            height={250}
+            fill
+            style={{ objectFit: 'cover' }}
             className={styles.image}
           />
         </div>

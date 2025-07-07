@@ -130,12 +130,14 @@ $background-color: #3c4855;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  line-clamp: 10;
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
   transition: all 0.3s;
 }
 
 .expanded {
+  line-clamp: unset;
   -webkit-line-clamp: unset;
   height: auto;
 }
@@ -159,4 +161,32 @@ $background-color: #3c4855;
   font-size: 0.8rem;
   color: #999;
   margin-top: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .recentReviewsContainer {
+    background-color: #fff;
+    color: #343a40;
+  }
+
+  .header {
+    color: #343a40;
+  }
+
+  .reviewCard {
+    background-color: #fff;
+    color: #343a40;
+  }
+
+  .reviewCity {
+    color: #343a40;
+  }
+
+  .reviewText {
+    color: #555;
+  }
+
+  .reviewDate {
+    color: #999;
+  }
 }

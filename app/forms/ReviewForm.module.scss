@@ -58,3 +58,25 @@ $background-color: #3c4855;
     background-color: #fb4b48;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .reviewForm {
+    color: #343a40;
+
+    h3 {
+      color: #343a40;
+      padding-bottom: 20px;
+    }
+
+    .formLabel {
+      color: #343a40;
+    }
+
+    .formInput,
+    .formTextarea {
+      background-color: #fff;
+      color: #343a40;
+      border: 1px solid #ddd;
+    }
+  }
+}

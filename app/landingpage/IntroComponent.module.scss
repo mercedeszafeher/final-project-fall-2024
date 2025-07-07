@@ -60,3 +60,29 @@ $hover-accent-color: #e0685a;
     }
   }
 }
+
+@media (max-width: 768px) {
+  .landingPage {
+    height: 70vh;
+
+    .overlay {
+      .button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .landingPage {
+    height: 50vh;
+
+    .overlay {
+      .button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+    }
+  }
+}

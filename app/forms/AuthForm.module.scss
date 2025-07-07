@@ -156,7 +156,7 @@ $background-color: #3c4855;
 
 .authButton {
   border-radius: 20px;
-  border: 1px solid $accent-color;
+  border: 1px solid;
   background-color: $accent-color;
   color: $secondary-color;
   font-size: 12px;
@@ -178,7 +178,7 @@ $background-color: #3c4855;
 
 .ghostButton {
   border-radius: 20px;
-  border: 1px solid $secondary-color;
+  border: 1px solid;
   background-color: $accent-color;
   color: $secondary-color;
   font-size: 12px;
@@ -248,4 +248,20 @@ $background-color: #3c4855;
   .authInput {
     font-size: 0.9em;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .authContainer h1 {
+    color: #343a40;
+  }
+
+  .authInput {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  color: #343a40;
+}
+
 }
